@@ -30,7 +30,7 @@
             // 
             this.m_serialPortRfid.BaudRate = 2400;
             this.m_serialPortRfid.DtrEnable = true;
-            this.m_serialPortRfid.PortName = "COM3";
+            this.m_serialPortRfid.PortName = "COM4";
             this.m_serialPortRfid.ReceivedBytesThreshold = 12;
             // 
             // CBeepBop
