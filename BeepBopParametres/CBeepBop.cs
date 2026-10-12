@@ -12,12 +12,12 @@ namespace BeepBop
 {
     public partial class CBeepBop : Form
     {
-        private const string CportName = "COM3"; // Port du Lecteur RFID
+        //private const string CportName = "COM3"; // Port du Lecteur RFID
         public CBeepBop()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
-            this.m_serialPortRfid.Open();
+            //this.m_serialPortRfid.Open();
         }
         
             private int LectureNumeroCarte()
@@ -39,6 +39,26 @@ namespace BeepBop
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
             m_lblNumeroCarte.Text = LectureNumeroCarte().ToString();
+        }
+
+        private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
+        {
+            this.m_serialPortRfid.PortName = this.m_TxtSerialPort.Text;
+            this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
+            Control.CheckForIllegalCrossThreadCalls = false;
+            try
+            {
+                this.m_serialPortRfid.Open();
+            }
+            catch (Exception x_exception)
+            {
+                MessageBox.Show(x_exception.Message);
+            }
+        }
+
+        private void m_TxtSerialPort_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

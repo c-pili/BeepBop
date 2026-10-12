@@ -25,28 +25,79 @@
             this.components = new System.ComponentModel.Container();
             this.m_serialPortRfid = new System.IO.Ports.SerialPort(this.components);
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
+            this.m_BpConnecterSerialPort = new System.Windows.Forms.Button();
+            this.m_TxtSerialPort = new System.Windows.Forms.TextBox();
+            this.m_TxtSerialBaud = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // m_serialPortRfid
             // 
-            this.m_serialPortRfid.BaudRate = 2400;
-            this.m_serialPortRfid.DtrEnable = true;
-            this.m_serialPortRfid.PortName = CportName;
+            //this.m_serialPortRfid.BaudRate = 2400;
             this.m_serialPortRfid.ReceivedBytesThreshold = 12;
             this.m_serialPortRfid.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.m_serialPortRfid_DataReceived);
             // 
             // m_lblNumeroCarte
             // 
             this.m_lblNumeroCarte.AutoSize = true;
-            this.m_lblNumeroCarte.Location = new System.Drawing.Point(398, 195);
+            this.m_lblNumeroCarte.Location = new System.Drawing.Point(631, 167);
             this.m_lblNumeroCarte.Name = "m_lblNumeroCarte";
-            this.m_lblNumeroCarte.Size = new System.Drawing.Size(35, 13);
+            this.m_lblNumeroCarte.Size = new System.Drawing.Size(44, 16);
             this.m_lblNumeroCarte.TabIndex = 0;
             this.m_lblNumeroCarte.Text = "label1";
+            // 
+            // m_BpConnecterSerialPort
+            // 
+            this.m_BpConnecterSerialPort.Location = new System.Drawing.Point(368, 152);
+            this.m_BpConnecterSerialPort.Name = "m_BpConnecterSerialPort";
+            this.m_BpConnecterSerialPort.Size = new System.Drawing.Size(108, 40);
+            this.m_BpConnecterSerialPort.TabIndex = 1;
+            this.m_BpConnecterSerialPort.Text = "Se Connecter";
+            this.m_BpConnecterSerialPort.UseVisualStyleBackColor = true;
+            this.m_BpConnecterSerialPort.Click += new System.EventHandler(this.m_BpConnecterSerialPort_Click);
+            // 
+            // m_TxtSerialPort
+            // 
+            this.m_TxtSerialPort.Location = new System.Drawing.Point(250, 161);
+            this.m_TxtSerialPort.Name = "m_TxtSerialPort";
+            this.m_TxtSerialPort.Size = new System.Drawing.Size(100, 22);
+            this.m_TxtSerialPort.TabIndex = 2;
+            this.m_TxtSerialPort.TextChanged += new System.EventHandler(this.m_TxtSerialPort_TextChanged);
+            // 
+            // m_TxtSerialBaud
+            // 
+            this.m_TxtSerialBaud.Location = new System.Drawing.Point(250, 195);
+            this.m_TxtSerialBaud.Name = "m_TxtSerialBaud";
+            this.m_TxtSerialBaud.Size = new System.Drawing.Size(100, 22);
+            this.m_TxtSerialBaud.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(187, 161);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 16);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Port";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(187, 201);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 16);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Baud";
             // 
             // CBeepBop
             // 
             this.ClientSize = new System.Drawing.Size(831, 436);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.m_TxtSerialBaud);
+            this.Controls.Add(this.m_TxtSerialPort);
+            this.Controls.Add(this.m_BpConnecterSerialPort);
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Name = "CBeepBop";
             this.Load += new System.EventHandler(this.CBeepBop_Load);
@@ -57,6 +108,11 @@
 
         private System.IO.Ports.SerialPort m_serialPortRfid;
         private System.Windows.Forms.Label m_lblNumeroCarte;
+        private System.Windows.Forms.Button m_BpConnecterSerialPort;
+        private System.Windows.Forms.TextBox m_TxtSerialPort;
+        private System.Windows.Forms.TextBox m_TxtSerialBaud;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
