@@ -18,9 +18,9 @@ namespace BeepBop
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
             this.m_serialPortRfid.Open();
-
         }
-        private int LectureNumeroCarte()
+
+            private int LectureNumeroCarte()
         {
             // Récupération des 12 octets avec ReadExisting :
             string l_trame = this.m_serialPortRfid.ReadExisting();
@@ -30,6 +30,8 @@ namespace BeepBop
             System.Globalization.NumberStyles.HexNumber);
             return l_numeroCarte;
         }
+    }
+
 
     }
 }
