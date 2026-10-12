@@ -16,8 +16,9 @@ namespace BeepBop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new CBeepBop());
 
+            Application.Run(new CBeepBopBase());
+            //Test
             string l_trame = "\n0F01E24C8F\n";
             string l_derniersOctets = l_trame.Substring(7, 4);
 
