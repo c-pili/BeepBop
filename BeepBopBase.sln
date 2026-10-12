@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37012.4 d17.14
+VisualStudioVersion = 17.14.37012.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBop", "BeepBop\BeepBop.csproj", "{60A8A88A-FC10-4A6B-9553-FED66941DFF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopBase", "BeepBop\BeepBopBase.csproj", "{60A8A88A-FC10-4A6B-9553-FED66941DFF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopParametres", "BeepBopParametres\BeepBopParametres.csproj", "{88D19262-BD39-4476-A897-DBE2419B8EEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{60A8A88A-FC10-4A6B-9553-FED66941DFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60A8A88A-FC10-4A6B-9553-FED66941DFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60A8A88A-FC10-4A6B-9553-FED66941DFF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D19262-BD39-4476-A897-DBE2419B8EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D19262-BD39-4476-A897-DBE2419B8EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D19262-BD39-4476-A897-DBE2419B8EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D19262-BD39-4476-A897-DBE2419B8EEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
