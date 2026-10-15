@@ -43,8 +43,19 @@ namespace BeepBop
 
         private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
         {
+            if(this.m_serialPortRfid.PortName == "")
+            {
+                MessageBox.Show("Veuillez choisir un port série.");
+                return;
+            }
+            if(this.m_serialPortRfid.BaudRate == 0)
+            {
+                MessageBox.Show("Veuillez choisir un débit en bauds.");
+                return;
+            }
+            bool Etat = this.m_serialPortRfid.IsOpen;
             this.m_serialPortRfid.PortName = this.m_TxtSerialPort.Text;
-            this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
+            //this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
             Control.CheckForIllegalCrossThreadCalls = false;
             try
             {
