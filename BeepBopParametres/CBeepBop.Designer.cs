@@ -111,6 +111,7 @@
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CBeepBop";
+            this.Text = "BeepBop Parametres";
             this.Load += new System.EventHandler(this.CBeepBop_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
