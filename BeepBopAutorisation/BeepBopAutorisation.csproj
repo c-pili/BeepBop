@@ -32,6 +32,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,17 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CBeepBopBase.cs">
+    <Compile Include="CBeepBop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CBeepBopBase.Designer.cs">
-      <DependentUpon>CBeepBopBase.cs</DependentUpon>
+    <Compile Include="CBeepBop.Designer.cs">
+      <DependentUpon>CBeepBop.cs</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CBeepBopBase.resx">
-      <DependentUpon>CBeepBopBase.cs</DependentUpon>
+    <EmbeddedResource Include="CBeepBop.resx">
+      <DependentUpon>CBeepBop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -67,7 +71,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

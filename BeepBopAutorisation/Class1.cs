@@ -11,11 +11,11 @@ namespace BeepBop
         public int m_NumeroCarte;
         public bool m_estAutorise;
     }
-    internal class CBaseDeDonnees
+    public class CBaseDeDonnees
     {
         private Forfait[] m_forfaits;
-        private const int N_FORFAITS = 5;
-        CBaseDeDonnees()
+        private const int N_FORFAITS = 6;
+        public CBaseDeDonnees()
         {
             m_forfaits = new Forfait[N_FORFAITS];
             this.m_forfaits[0].m_NumeroCarte = 24393;
