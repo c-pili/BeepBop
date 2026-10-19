@@ -19,8 +19,8 @@ namespace BeepBop
             Control.CheckForIllegalCrossThreadCalls = false;
             //this.m_serialPortRfid.Open();
         }
-        
-            private int LectureNumeroCarte()
+
+        private int LectureNumeroCarte()
         {
             // Récupération des 12 octets avec ReadExisting :
             string l_trame = this.m_serialPortRfid.ReadExisting();
@@ -43,27 +43,41 @@ namespace BeepBop
 
         private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
         {
-            if(this.m_serialPortRfid.PortName == "")
+            if (!this.m_serialPortRfid.IsOpen)
             {
-                MessageBox.Show("Veuillez choisir un port série.");
-                return;
+                if (this.m_serialPortRfid.PortName == "")
+                {
+                    MessageBox.Show("Veuillez choisir un port série.");
+                    return;
+                }
+                if (this.m_serialPortRfid.BaudRate == 0)
+                {
+                    MessageBox.Show("Veuillez choisir une vitesse de transmission en bauds.");
+                    return;
+                }
+                try
+                {
+                    this.m_serialPortRfid.PortName = this.m_TxtSerialPort.Text.ToString();
+                    this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
+                    this.m_serialPortRfid.Open();
+                    this.m_BpConnecterSerialPort.Text = "Se Déconnecter";
+                }
+                catch (Exception x_exception)
+                {
+                    MessageBox.Show(x_exception.Message);
+                }
             }
-            if(this.m_serialPortRfid.BaudRate == 0)
+            else
             {
-                MessageBox.Show("Veuillez choisir un débit en bauds.");
-                return;
-            }
-            bool Etat = this.m_serialPortRfid.IsOpen;
-            this.m_serialPortRfid.PortName = this.m_TxtSerialPort.Text;
-            //this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
-            Control.CheckForIllegalCrossThreadCalls = false;
-            try
-            {
-                this.m_serialPortRfid.Open();
-            }
-            catch (Exception x_exception)
-            {
-                MessageBox.Show(x_exception.Message);
+                try
+                {
+                    this.m_serialPortRfid.Close();
+                    this.m_BpConnecterSerialPort.Text = "Se Connecter";
+                }
+                catch (Exception x_exception)
+                {
+                    MessageBox.Show(x_exception.Message);
+                }
             }
         }
 

@@ -41,6 +41,7 @@
             // 
             // m_lblNumeroCarte
             // 
+            this.m_lblNumeroCarte.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.m_lblNumeroCarte.AutoSize = true;
             this.m_lblNumeroCarte.Location = new System.Drawing.Point(631, 167);
             this.m_lblNumeroCarte.Name = "m_lblNumeroCarte";
@@ -49,6 +50,7 @@
             // 
             // m_BpConnecterSerialPort
             // 
+            this.m_BpConnecterSerialPort.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.m_BpConnecterSerialPort.Location = new System.Drawing.Point(368, 152);
             this.m_BpConnecterSerialPort.Name = "m_BpConnecterSerialPort";
             this.m_BpConnecterSerialPort.Size = new System.Drawing.Size(108, 40);
@@ -59,6 +61,7 @@
             // 
             // m_TxtSerialPort
             // 
+            this.m_TxtSerialPort.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.m_TxtSerialPort.Location = new System.Drawing.Point(250, 161);
             this.m_TxtSerialPort.Name = "m_TxtSerialPort";
             this.m_TxtSerialPort.Size = new System.Drawing.Size(100, 22);
@@ -67,6 +70,7 @@
             // 
             // m_TxtSerialBaud
             // 
+            this.m_TxtSerialBaud.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.m_TxtSerialBaud.Location = new System.Drawing.Point(250, 195);
             this.m_TxtSerialBaud.Name = "m_TxtSerialBaud";
             this.m_TxtSerialBaud.Size = new System.Drawing.Size(100, 22);
@@ -74,6 +78,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(187, 161);
             this.label1.Name = "label1";
@@ -83,6 +88,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(187, 201);
             this.label2.Name = "label2";
@@ -92,6 +98,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(570, 167);
             this.label3.Name = "label3";
