@@ -57,7 +57,7 @@ namespace BeepBop
                 }
                 try
                 {
-                    this.m_serialPortRfid.PortName = this.m_TxtSerialPort.Text.ToString();
+                    this.m_serialPortRfid.PortName = "COM" + this.m_TxtSerialPort.Text.ToString();
                     this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
                     this.m_serialPortRfid.Open();
                     this.m_BpConnecterSerialPort.Text = "Se Déconnecter";

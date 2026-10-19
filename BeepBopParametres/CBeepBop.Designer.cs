@@ -36,6 +36,7 @@
             // 
             // m_serialPortRfid
             // 
+            this.m_serialPortRfid.DtrEnable = true;
             this.m_serialPortRfid.ReceivedBytesThreshold = 12;
             this.m_serialPortRfid.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.m_serialPortRfid_DataReceived);
             // 
