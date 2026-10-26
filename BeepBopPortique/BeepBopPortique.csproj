@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CAutomate.cs" />
     <Compile Include="CBeepBop.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +58,9 @@
       <DependentUpon>CBeepBop.cs</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="CPortique.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CBeepBop.resx">
