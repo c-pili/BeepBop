@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BeepBopPortique
+namespace BeepBop
 {
     internal static class Program
     {
@@ -16,7 +16,13 @@ namespace BeepBopPortique
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new CBeepBop());
+            //Test
+            string l_trame = "\n0F01E24C8F\n";
+            string l_derniersOctets = l_trame.Substring(7, 4);
+
+            int l_numeroCarte = Int32.Parse(l_derniersOctets,
+            System.Globalization.NumberStyles.HexNumber);
         }
     }
 }

@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace BeepBopPortique
+namespace BeepBop
 {
-    public partial class Form1 : Form
+    public struct Forfait
     {
-        public Form1()
+        public int m_NumeroCarte;
+        public bool m_estAutorise;
+    }
+    public class CBaseDeDonnees
+    {
+        private Forfait[] m_forfaits;
+        private const int N_FORFAITS = 6;
+        public CBaseDeDonnees()
         {
-            InitializeComponent();
-
             m_forfaits = new Forfait[N_FORFAITS];
             this.m_forfaits[0].m_NumeroCarte = 24393;
             this.m_forfaits[0].m_estAutorise = true;
@@ -29,6 +30,18 @@ namespace BeepBopPortique
             this.m_forfaits[4].m_estAutorise = true;
             this.m_forfaits[5].m_NumeroCarte = 19140;
             this.m_forfaits[5].m_estAutorise = false;
+        }
+        public bool EstAutorise(int x_numeroCarte)
+        {
+            for (int i = 0; i < N_FORFAITS; i++)
+            {
+                if (m_forfaits[i].m_NumeroCarte == x_numeroCarte)
+                {
+                    return m_forfaits[i].m_estAutorise;
+                }
+
+            }
+            return false;
         }
     }
 }

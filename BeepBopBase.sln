@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopParametres", "BeepBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopAutorisation", "BeepBopAutorisation\BeepBopAutorisation.csproj", "{01902FD1-FD18-4D9F-A157-8F766392A065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopPortique", "BeepBopPortique\BeepBopPortique.csproj", "{D0AF7BE3-CA19-4EE4-8E28-BABE361015CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopPortique", "BeepBopPortique\BeepBopPortique.csproj", "{26D00A31-C883-4BAA-B32C-B1D46B78D560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{01902FD1-FD18-4D9F-A157-8F766392A065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01902FD1-FD18-4D9F-A157-8F766392A065}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01902FD1-FD18-4D9F-A157-8F766392A065}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D0AF7BE3-CA19-4EE4-8E28-BABE361015CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D0AF7BE3-CA19-4EE4-8E28-BABE361015CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D0AF7BE3-CA19-4EE4-8E28-BABE361015CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D0AF7BE3-CA19-4EE4-8E28-BABE361015CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D00A31-C883-4BAA-B32C-B1D46B78D560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D00A31-C883-4BAA-B32C-B1D46B78D560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D00A31-C883-4BAA-B32C-B1D46B78D560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D00A31-C883-4BAA-B32C-B1D46B78D560}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

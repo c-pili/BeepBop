@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BeepBopPortique.Properties
+namespace BeepBop.Properties
 {
 
 
