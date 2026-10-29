@@ -12,7 +12,6 @@ namespace BeepBop
 {
     public partial class CBeepBop : Form
     {
-        const float temp_passage = 10;
         CAutomate Automate;
         CBaseDeDonnees BaseDeDonnees;
         CPortique Portique;
