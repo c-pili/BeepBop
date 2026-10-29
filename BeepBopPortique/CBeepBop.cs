@@ -13,12 +13,16 @@ namespace BeepBop
     public partial class CBeepBop : Form
     {
         //private const string CportName = "COM3"; // Port du Lecteur RFID
+        CAutomate Automate;
         CBaseDeDonnees BaseDeDonnees;
+        CPortique Portique;
         public CBeepBop()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
             BaseDeDonnees = new CBaseDeDonnees();
+            Automate = new CAutomate();
+            Portique = new CPortique();
             //this.m_serialPortRfid.Open();
         }
 
@@ -93,7 +97,27 @@ namespace BeepBop
             }
         }
 
-        private void m_TxtSerialPort_TextChanged(object sender, EventArgs e)
+        private void m_Timer2s_Tick(object sender, EventArgs e)
+        {
+            Automate.Evolue(TEvent.TIMER2S);
+            this.m_Timer2s.Enabled = false;
+        }
+
+        private void m_BpAcquittement_Click(object sender, EventArgs e)
+        {
+            Automate.Evolue(TEvent.APPUIACQ);
+        }
+
+        public void FermerPortique()
+        {
+
+        }
+
+        public void OuvrirPortique()
+        {
+            Show(CBeepBop);
+        }
+        public void ErreurPortique()
         {
 
         }
