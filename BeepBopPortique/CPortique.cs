@@ -9,7 +9,7 @@ namespace BeepBop
 {
     internal class CPortique:Form
     {
-        public void Ouvir()
+        public void Ouvrir()
         {
             //passer le fond en vert
             this.BackColor = System.Drawing.Color.Green;

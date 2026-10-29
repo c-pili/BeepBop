@@ -32,7 +32,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.m_Timer2s = new System.Windows.Forms.Timer(this.components);
             this.m_BpAcquittement = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -108,11 +107,6 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "ID Carte";
             // 
-            // m_Timer2s
-            // 
-            this.m_Timer2s.Interval = 2000;
-            this.m_Timer2s.Tick += new System.EventHandler(this.m_Timer2s_Tick);
-            // 
             // m_BpAcquittement
             // 
             this.m_BpAcquittement.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -138,7 +132,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CBeepBop";
             this.Text = "BeepBop Parametres";
-            this.Load += new System.EventHandler(this.CBeepBop_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,7 +145,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.Timer m_Timer2s;
         private System.Windows.Forms.Button m_BpAcquittement;
     }
 }

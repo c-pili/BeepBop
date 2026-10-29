@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopAutorisation", "Beep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopPortique", "BeepBopPortique\BeepBopPortique.csproj", "{26D00A31-C883-4BAA-B32C-B1D46B78D560}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeepBopAntiTriche", "BeepBopAntiTriche\BeepBopAntiTriche.csproj", "{D3233CF8-B615-4F59-BA61-3674FD89EDB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{26D00A31-C883-4BAA-B32C-B1D46B78D560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26D00A31-C883-4BAA-B32C-B1D46B78D560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26D00A31-C883-4BAA-B32C-B1D46B78D560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3233CF8-B615-4F59-BA61-3674FD89EDB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3233CF8-B615-4F59-BA61-3674FD89EDB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3233CF8-B615-4F59-BA61-3674FD89EDB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3233CF8-B615-4F59-BA61-3674FD89EDB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
