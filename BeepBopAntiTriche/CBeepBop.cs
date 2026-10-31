@@ -36,11 +36,6 @@ namespace BeepBop
             return l_numeroCarte;
         }
 
-        private void CBeepBop_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
             int NumCarte = LectureNumeroCarte();
@@ -99,7 +94,6 @@ namespace BeepBop
         private void m_Timer2s_Tick(object sender, EventArgs e)
         {
             Automate.Evolue(TEvent.TIMER2S);
-            this.m_Timer2s.Enabled = false;
         }
 
         private void m_BpAcquittement_Click(object sender, EventArgs e)

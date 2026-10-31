@@ -106,6 +106,7 @@
             // 
             // m_Timer2s
             // 
+            this.m_Timer2s.Enabled = true;
             this.m_Timer2s.Interval = 2000;
             this.m_Timer2s.Tick += new System.EventHandler(this.m_Timer2s_Tick);
             // 
@@ -166,7 +167,7 @@
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CBeepBop";
-            this.Text = "BeepBop Parametres";
+            this.Text = "BeepBop Triple";
             this.ResumeLayout(false);
             this.PerformLayout();
 

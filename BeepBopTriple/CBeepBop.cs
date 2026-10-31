@@ -119,7 +119,6 @@ namespace BeepBop
             {
                 Automate[i].Evolue(TEvent.TIMER2S, i);
             }
-            this.m_Timer2s.Enabled = false;
         }
 
         private void m_BpAcquittement_Click(object sender, EventArgs e)

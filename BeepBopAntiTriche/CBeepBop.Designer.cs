@@ -22,9 +22,8 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CBeepBop));
-            this.m_serialPortRfid = new System.IO.Ports.SerialPort(this.components);
+            this.m_serialPortRfid = new System.IO.Ports.SerialPort();
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
             this.m_BpConnecterSerialPort = new System.Windows.Forms.Button();
             this.m_TxtSerialPort = new System.Windows.Forms.TextBox();
@@ -32,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.m_Timer2s = new System.Windows.Forms.Timer(this.components);
+            this.m_Timer2s = new System.Windows.Forms.Timer();
             this.m_BpAcquittement = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -110,6 +109,7 @@
             // 
             // m_Timer2s
             // 
+            this.m_Timer2s.Enabled = true;
             this.m_Timer2s.Interval = 2000;
             this.m_Timer2s.Tick += new System.EventHandler(this.m_Timer2s_Tick);
             // 
@@ -137,8 +137,7 @@
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CBeepBop";
-            this.Text = "BeepBop Parametres";
-            this.Load += new System.EventHandler(this.CBeepBop_Load);
+            this.Text = "BeepBop Anti-Triche";
             this.ResumeLayout(false);
             this.PerformLayout();
 

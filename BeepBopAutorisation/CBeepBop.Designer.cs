@@ -22,9 +22,8 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CBeepBop));
-            this.m_serialPortRfid = new System.IO.Ports.SerialPort(this.components);
+            this.m_serialPortRfid = new System.IO.Ports.SerialPort();
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
             this.m_BpConnecterSerialPort = new System.Windows.Forms.Button();
             this.m_TxtSerialPort = new System.Windows.Forms.TextBox();
@@ -46,7 +45,7 @@
             this.m_lblNumeroCarte.AutoSize = true;
             this.m_lblNumeroCarte.Location = new System.Drawing.Point(631, 167);
             this.m_lblNumeroCarte.Name = "m_lblNumeroCarte";
-            this.m_lblNumeroCarte.Size = new System.Drawing.Size(0, 13);
+            this.m_lblNumeroCarte.Size = new System.Drawing.Size(0, 16);
             this.m_lblNumeroCarte.TabIndex = 0;
             // 
             // m_BpConnecterSerialPort
@@ -65,7 +64,7 @@
             this.m_TxtSerialPort.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.m_TxtSerialPort.Location = new System.Drawing.Point(250, 161);
             this.m_TxtSerialPort.Name = "m_TxtSerialPort";
-            this.m_TxtSerialPort.Size = new System.Drawing.Size(100, 20);
+            this.m_TxtSerialPort.Size = new System.Drawing.Size(100, 22);
             this.m_TxtSerialPort.TabIndex = 2;
             this.m_TxtSerialPort.TextChanged += new System.EventHandler(this.m_TxtSerialPort_TextChanged);
             // 
@@ -74,7 +73,7 @@
             this.m_TxtSerialBaud.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.m_TxtSerialBaud.Location = new System.Drawing.Point(250, 195);
             this.m_TxtSerialBaud.Name = "m_TxtSerialBaud";
-            this.m_TxtSerialBaud.Size = new System.Drawing.Size(100, 20);
+            this.m_TxtSerialBaud.Size = new System.Drawing.Size(100, 22);
             this.m_TxtSerialBaud.TabIndex = 3;
             // 
             // label1
@@ -83,7 +82,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(187, 161);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 13);
+            this.label1.Size = new System.Drawing.Size(31, 16);
             this.label1.TabIndex = 4;
             this.label1.Text = "Port";
             // 
@@ -93,7 +92,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(187, 201);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.Size = new System.Drawing.Size(39, 16);
             this.label2.TabIndex = 5;
             this.label2.Text = "Baud";
             // 
@@ -103,7 +102,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(570, 167);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.Size = new System.Drawing.Size(55, 16);
             this.label3.TabIndex = 6;
             this.label3.Text = "ID Carte";
             // 
@@ -119,7 +118,7 @@
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CBeepBop";
-            this.Text = "BeepBop Parametres";
+            this.Text = "BeepBop Autorisations";
             this.Load += new System.EventHandler(this.CBeepBop_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

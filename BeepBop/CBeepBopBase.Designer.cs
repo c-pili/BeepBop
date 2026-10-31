@@ -22,8 +22,7 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.m_serialPortRfid = new System.IO.Ports.SerialPort(this.components);
+            this.m_serialPortRfid = new System.IO.Ports.SerialPort();
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -40,15 +39,16 @@
             this.m_lblNumeroCarte.AutoSize = true;
             this.m_lblNumeroCarte.Location = new System.Drawing.Point(398, 195);
             this.m_lblNumeroCarte.Name = "m_lblNumeroCarte";
-            this.m_lblNumeroCarte.Size = new System.Drawing.Size(35, 13);
+            this.m_lblNumeroCarte.Size = new System.Drawing.Size(44, 16);
             this.m_lblNumeroCarte.TabIndex = 0;
             this.m_lblNumeroCarte.Text = "label1";
             // 
-            // CBeepBop
+            // CBeepBopBase
             // 
             this.ClientSize = new System.Drawing.Size(831, 436);
             this.Controls.Add(this.m_lblNumeroCarte);
-            this.Name = "CBeepBop";
+            this.Name = "CBeepBopBase";
+            this.Text = "BeepBop Base";
             this.ResumeLayout(false);
             this.PerformLayout();
 
