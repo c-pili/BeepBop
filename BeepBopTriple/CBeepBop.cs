@@ -64,7 +64,7 @@ namespace BeepBop
         {
             if(this.m_BoxNumPortique.SelectedItem == null)
             {
-                MessageBox.Show("Veuillez choisir un numéro de portique.");
+                MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
             this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Port = int.Parse(this.m_TxtSerialPort.Text);
@@ -74,12 +74,12 @@ namespace BeepBop
             {
                 if (this.m_serialPortRfid.PortName == "")
                 {
-                    MessageBox.Show("Veuillez choisir un port série.");
+                    MessageBox.Show("Veuillez choisir un port série");
                     return;
                 }
                 if (this.m_serialPortRfid.BaudRate == 0)
                 {
-                    MessageBox.Show("Veuillez choisir une vitesse de transmission en bauds.");
+                    MessageBox.Show("Veuillez choisir une vitesse de transmission en bauds");
                     return;
                 }
                 try
@@ -120,6 +120,11 @@ namespace BeepBop
 
         private void m_BpAcquittement_Click(object sender, EventArgs e)
         {
+            if(this.m_BoxNumPortique.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez choisir un numéro de portique");
+                return;
+            }
             Automate.Evolue(TEvent.APPUIACQ);
         }
 
