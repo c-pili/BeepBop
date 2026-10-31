@@ -153,13 +153,20 @@ namespace BeepBop
         {
             this.NbrPortique = int.Parse(this.m_TxtNbrPortique.Text);
 
-            Portique = new CPortique[NbrPortique];
+            Portique = new CPortique[NbrPortique]; // tableau de portique
             Automate = new CAutomate[NbrPortique];
             m_serialPortRfid = new SerialPort[NbrPortique];
+            m_Portique = new TPortique[NbrPortique]; //fenetre portique
 
+            this.m_BoxNumPortique.Items.Clear();
             for (int i = NbrPortique; i > 0; i--)
             {
                 this.m_BoxNumPortique.Items.Add(i);
+
+                Portique[i - 1] = new CPortique();
+                Automate[i - 1] = new CAutomate();
+                m_serialPortRfid[i - 1] = new SerialPort();
+                m_Portique[i - 1] = new TPortique();
             }
         }
 
