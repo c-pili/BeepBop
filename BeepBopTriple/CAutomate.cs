@@ -23,6 +23,7 @@ namespace BeepBop
 
         public void Evolue(TEvent x_Event, int x_index)
         {
+            this.index = x_index;
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:

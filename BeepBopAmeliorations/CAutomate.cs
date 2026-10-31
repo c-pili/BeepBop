@@ -20,9 +20,12 @@ namespace BeepBop
         TEtat m_etat;
         CBeepBop BeepBop;
         int index;
+        int NumForfait;
 
-        public void Evolue(TEvent x_Event, int x_index)
+        public void Evolue(TEvent x_Event, int x_index, int x_numforfait)
         {
+            this.index = x_index;
+            this.NumForfait = x_numforfait;
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
@@ -62,11 +65,11 @@ namespace BeepBop
                     break;
 
                 case TEtat.OUVERT:
-                    BeepBop.OuvrirPortique(index);
+                    BeepBop.OuvrirPortique(index, NumForfait);
                     break;
 
                 case TEtat.ERREUR:
-                    BeepBop.ErreurPortique(index);
+                    BeepBop.ErreurPortique(index, NumForfait);
                     break;
             }
         }

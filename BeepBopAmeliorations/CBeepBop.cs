@@ -31,9 +31,14 @@ namespace BeepBop
         TPortique[] m_Portique;
         public CBeepBop()
         {
+            /*
+             * Amelioration
+             * -> Ajout parametre tp passage min + Ouverture portique
+             * -> Ajout date de validité forfait(en jour)
+             * -> Ajout TxtBox pour chaque portique
+            */
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
-            //this.m_serialPortRfid.Open();
             this.m_BoxNumPortique.Text = "Selectionne le numero du portique";
         }
 
@@ -144,14 +149,14 @@ namespace BeepBop
             Portique[index].Show();
         }
 
-        public void OuvrirPortique(int index)
+        public void OuvrirPortique(int index, int NumForfait)
         {
-            Portique[index].Ouvrir(index);
+            Portique[index].Ouvrir(index, NumForfait);
             Portique[index].Show();
         }
-        public void ErreurPortique(int index)
+        public void ErreurPortique(int index, int NumForfait)
         {
-            Portique[index].Erreur(index);
+            Portique[index].Erreur(index, NumForfait);
             Portique[index].Show();
         }
 
