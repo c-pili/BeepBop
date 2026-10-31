@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BeepBop
 {
@@ -18,8 +19,9 @@ namespace BeepBop
         */
         TEtat m_etat;
         CBeepBop BeepBop;
+        int index;
 
-        public void Evolue(TEvent x_Event)
+        public void Evolue(TEvent x_Event, int x_index)
         {
             switch (this.m_etat)
             {
@@ -56,15 +58,15 @@ namespace BeepBop
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
-                    BeepBop.FermerPortique();
+                    BeepBop.FermerPortique(index);
                     break;
 
                 case TEtat.OUVERT:
-                    BeepBop.OuvrirPortique();
+                    BeepBop.OuvrirPortique(index);
                     break;
 
                 case TEtat.ERREUR:
-                    BeepBop.ErreurPortique();
+                    BeepBop.ErreurPortique(index);
                     break;
             }
         }

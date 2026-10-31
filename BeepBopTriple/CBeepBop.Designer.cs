@@ -24,7 +24,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CBeepBop));
-            this.m_serialPortRfid = new System.IO.Ports.SerialPort(this.components);
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
             this.m_BpConnecterSerialPort = new System.Windows.Forms.Button();
             this.m_TxtSerialPort = new System.Windows.Forms.TextBox();
@@ -38,12 +37,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.m_BoxNumPortique = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
-            // 
-            // m_serialPortRfid
-            // 
-            this.m_serialPortRfid.DtrEnable = true;
-            this.m_serialPortRfid.ReceivedBytesThreshold = 12;
-            this.m_serialPortRfid.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.m_serialPortRfid_DataReceived);
             // 
             // m_lblNumeroCarte
             // 
@@ -179,7 +172,7 @@
 
         }
 
-        private System.IO.Ports.SerialPort m_serialPortRfid;
+        //private System.IO.Ports.SerialPort m_serialPortRfid;
         private System.Windows.Forms.Label m_lblNumeroCarte;
         private System.Windows.Forms.Button m_BpConnecterSerialPort;
         private System.Windows.Forms.TextBox m_TxtSerialPort;
