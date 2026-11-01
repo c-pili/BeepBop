@@ -114,7 +114,6 @@
             // 
             this.m_TimerSeconde.Enabled = true;
             this.m_TimerSeconde.Interval = 1000;
-            this.m_TimerSeconde.Tick += new System.EventHandler(this.m_TimerSeconde_Tick);
             // 
             // m_BpAcquittement
             // 

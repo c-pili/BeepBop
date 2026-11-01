@@ -33,11 +33,6 @@ namespace BeepBop
             return l_numeroCarte;
         }
 
-        private void CBeepBop_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
             int NumCarte = LectureNumeroCarte();
