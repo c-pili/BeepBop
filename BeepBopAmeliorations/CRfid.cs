@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    public partial class CBeepBop : Form
+    public partial class CRfid : Form
     {
         CAutomate[] Automate;
         CBaseDeDonnees BaseDeDonnees;
@@ -29,7 +29,7 @@ namespace BeepBop
             public int trame;
         }
         TPortique[] m_Portique;
-        public CBeepBop()
+        public CRfid()
         {
             /*
              * Amelioration

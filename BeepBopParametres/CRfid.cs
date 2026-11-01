@@ -10,15 +10,13 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    public partial class CBeepBop : Form
+    public partial class CRfid : Form
     {
         //private const string CportName = "COM3"; // Port du Lecteur RFID
-        CBaseDeDonnees BaseDeDonnees;
-        public CBeepBop()
+        public CRfid()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
-            BaseDeDonnees = new CBaseDeDonnees();
             //this.m_serialPortRfid.Open();
         }
 
@@ -40,17 +38,7 @@ namespace BeepBop
 
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            int NumCarte = LectureNumeroCarte();
-            m_lblNumeroCarte.Text = NumCarte.ToString();
-
-            if (BaseDeDonnees.EstAutorise(NumCarte))
-            {
-                label3.BackColor = Color.LightGreen;
-            }
-            else
-            {
-                label3.BackColor = Color.LightCoral;
-            }
+            m_lblNumeroCarte.Text = LectureNumeroCarte().ToString();
         }
 
         private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
@@ -69,7 +57,7 @@ namespace BeepBop
                 }
                 try
                 {
-                    this.m_serialPortRfid.PortName = "COM" + this.m_TxtSerialPort.Text.ToString();
+                    this.m_serialPortRfid.PortName = this.m_TxtSerialPort.Text.ToString();
                     this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
                     this.m_serialPortRfid.Open();
                     this.m_BpConnecterSerialPort.Text = "Se Déconnecter";

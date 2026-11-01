@@ -18,7 +18,7 @@ namespace BeepBop
         non auto = erreur 2s -> durant 2s on peut acquitter avec un bouton
         */
         TEtat m_etat;
-        CBeepBop BeepBop;
+        CRfid BeepBop;
         int index;
         int NumForfait;
 

@@ -10,18 +10,15 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    public partial class CBeepBop : Form
+    public partial class CRfid : Form
     {
-        CAutomate Automate;
+        //private const string CportName = "COM3"; // Port du Lecteur RFID
         CBaseDeDonnees BaseDeDonnees;
-        CPortique Portique;
-        public CBeepBop()
+        public CRfid()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
             BaseDeDonnees = new CBaseDeDonnees();
-            Automate = new CAutomate();
-            Portique = new CPortique();
             //this.m_serialPortRfid.Open();
         }
 
@@ -34,6 +31,11 @@ namespace BeepBop
             l_numeroCarte = Int32.Parse(l_derniersOctets,
             System.Globalization.NumberStyles.HexNumber);
             return l_numeroCarte;
+        }
+
+        private void CBeepBop_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -91,31 +93,9 @@ namespace BeepBop
             }
         }
 
-        private void m_Timer2s_Tick(object sender, EventArgs e)
+        private void m_TxtSerialPort_TextChanged(object sender, EventArgs e)
         {
-            Automate.Evolue(TEvent.TIMER2S);
-        }
 
-        private void m_BpAcquittement_Click(object sender, EventArgs e)
-        {
-            Automate.Evolue(TEvent.APPUIACQ);
-        }
-
-        public void FermerPortique()
-        {
-            Portique.Fermer();
-            Portique.Show();
-        }
-
-        public void OuvrirPortique()
-        {
-            Portique.Ouvrir();
-            Portique.Show();
-        }
-        public void ErreurPortique()
-        {
-            Portique.Erreur();
-            Portique.Show();
         }
     }
 }

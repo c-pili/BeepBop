@@ -1,6 +1,6 @@
 ﻿namespace BeepBop
 {
-    partial class CBeepBop
+    partial class CRfid
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -22,9 +22,8 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CBeepBop));
-            this.m_serialPortRfid = new System.IO.Ports.SerialPort(this.components);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CRfid));
+            this.m_serialPortRfid = new System.IO.Ports.SerialPort();
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
             this.m_BpConnecterSerialPort = new System.Windows.Forms.Button();
             this.m_TxtSerialPort = new System.Windows.Forms.TextBox();
@@ -32,10 +31,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.m_Timer2s = new System.Windows.Forms.Timer();
+            this.m_BpAcquittement = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // m_serialPortRfid
             // 
+            this.m_serialPortRfid.DtrEnable = true;
             this.m_serialPortRfid.ReceivedBytesThreshold = 12;
             this.m_serialPortRfid.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.m_serialPortRfid_DataReceived);
             // 
@@ -66,7 +68,6 @@
             this.m_TxtSerialPort.Name = "m_TxtSerialPort";
             this.m_TxtSerialPort.Size = new System.Drawing.Size(100, 22);
             this.m_TxtSerialPort.TabIndex = 2;
-            this.m_TxtSerialPort.TextChanged += new System.EventHandler(this.m_TxtSerialPort_TextChanged);
             // 
             // m_TxtSerialBaud
             // 
@@ -106,9 +107,27 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "ID Carte";
             // 
+            // m_Timer2s
+            // 
+            this.m_Timer2s.Enabled = true;
+            this.m_Timer2s.Interval = 2000;
+            this.m_Timer2s.Tick += new System.EventHandler(this.m_Timer2s_Tick);
+            // 
+            // m_BpAcquittement
+            // 
+            this.m_BpAcquittement.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_BpAcquittement.Location = new System.Drawing.Point(368, 252);
+            this.m_BpAcquittement.Name = "m_BpAcquittement";
+            this.m_BpAcquittement.Size = new System.Drawing.Size(108, 40);
+            this.m_BpAcquittement.TabIndex = 7;
+            this.m_BpAcquittement.Text = "Acquitement";
+            this.m_BpAcquittement.UseVisualStyleBackColor = true;
+            this.m_BpAcquittement.Click += new System.EventHandler(this.m_BpAcquittement_Click);
+            // 
             // CBeepBop
             // 
             this.ClientSize = new System.Drawing.Size(831, 436);
+            this.Controls.Add(this.m_BpAcquittement);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -118,8 +137,7 @@
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CBeepBop";
-            this.Text = "BeepBop Parametres";
-            this.Load += new System.EventHandler(this.CBeepBop_Load);
+            this.Text = "BeepBop Anti-Triche";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,6 +151,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Timer m_Timer2s;
+        private System.Windows.Forms.Button m_BpAcquittement;
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace BeepBop
 {
-    partial class CBeepBop
+    partial class CRfid
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -23,7 +23,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CBeepBop));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CRfid));
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
             this.m_BpConnecterSerialPort = new System.Windows.Forms.Button();
             this.m_TxtSerialPort = new System.Windows.Forms.TextBox();
@@ -31,11 +31,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.m_Timer2s = new System.Windows.Forms.Timer(this.components);
+            this.m_TimerSeconde = new System.Windows.Forms.Timer(this.components);
             this.m_BpAcquittement = new System.Windows.Forms.Button();
             this.m_TxtNbrPortique = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.m_BoxNumPortique = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.m_TxtTpOuverturePortique = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.m_TxtTpMinPassage = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // m_lblNumeroCarte
@@ -104,11 +110,11 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "ID Carte";
             // 
-            // m_Timer2s
+            // m_TimerSeconde
             // 
-            this.m_Timer2s.Enabled = true;
-            this.m_Timer2s.Interval = 2000;
-            this.m_Timer2s.Tick += new System.EventHandler(this.m_Timer2s_Tick);
+            this.m_TimerSeconde.Enabled = true;
+            this.m_TimerSeconde.Interval = 1000;
+            this.m_TimerSeconde.Tick += new System.EventHandler(this.m_TimerSeconde_Tick);
             // 
             // m_BpAcquittement
             // 
@@ -151,9 +157,73 @@
             this.m_BoxNumPortique.TabIndex = 12;
             this.m_BoxNumPortique.SelectedIndexChanged += new System.EventHandler(this.m_BoxNumPortique_SelectedIndexChanged);
             // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(192, 40);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(158, 16);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Duree Ouverture Portique";
+            // 
+            // m_TxtTpOuverturePortique
+            // 
+            this.m_TxtTpOuverturePortique.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_TxtTpOuverturePortique.Location = new System.Drawing.Point(368, 37);
+            this.m_TxtTpOuverturePortique.Name = "m_TxtTpOuverturePortique";
+            this.m_TxtTpOuverturePortique.Size = new System.Drawing.Size(108, 22);
+            this.m_TxtTpOuverturePortique.TabIndex = 19;
+            this.m_TxtTpOuverturePortique.TextChanged += new System.EventHandler(this.m_TxtTpOuverturePortique_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(190, 65);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(160, 16);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Temp min avant passage";
+            // 
+            // m_TxtTpMinPassage
+            // 
+            this.m_TxtTpMinPassage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_TxtTpMinPassage.Location = new System.Drawing.Point(368, 65);
+            this.m_TxtTpMinPassage.Name = "m_TxtTpMinPassage";
+            this.m_TxtTpMinPassage.Size = new System.Drawing.Size(108, 22);
+            this.m_TxtTpMinPassage.TabIndex = 17;
+            this.m_TxtTpMinPassage.TextChanged += new System.EventHandler(this.m_TxtTpMinPassage_TextChanged);
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(482, 40);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(14, 16);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "s";
+            // 
+            // label8
+            // 
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(482, 71);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(14, 16);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "s";
+            // 
             // CBeepBop
             // 
             this.ClientSize = new System.Drawing.Size(831, 436);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.m_TxtTpOuverturePortique);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.m_TxtTpMinPassage);
             this.Controls.Add(this.m_BoxNumPortique);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.m_TxtNbrPortique);
@@ -167,7 +237,7 @@
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CBeepBop";
-            this.Text = "BeepBop Triple";
+            this.Text = "BeepBop Amelioration";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,11 +251,17 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.Timer m_Timer2s;
+        public System.Windows.Forms.Timer m_TimerSeconde;
         private System.Windows.Forms.Button m_BpAcquittement;
         private System.Windows.Forms.TextBox m_TxtNbrPortique;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox m_BoxNumPortique;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox m_TxtTpOuverturePortique;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox m_TxtTpMinPassage;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
 

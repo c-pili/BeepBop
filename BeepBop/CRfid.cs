@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    public partial class CBeepBopBase : Form
+    public partial class CRfid : Form
     {
         private const string CportName = "COM5"; // Port du Lecteur RFID
-        public CBeepBopBase()
+        public CRfid()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;

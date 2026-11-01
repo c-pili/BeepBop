@@ -10,13 +10,18 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    public partial class CBeepBop : Form
+    public partial class CRfid : Form
     {
-        //private const string CportName = "COM3"; // Port du Lecteur RFID
-        public CBeepBop()
+        CAutomate Automate;
+        CBaseDeDonnees BaseDeDonnees;
+        CPortique Portique;
+        public CRfid()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
+            BaseDeDonnees = new CBaseDeDonnees();
+            Automate = new CAutomate();
+            Portique = new CPortique();
             //this.m_serialPortRfid.Open();
         }
 
@@ -31,14 +36,19 @@ namespace BeepBop
             return l_numeroCarte;
         }
 
-        private void CBeepBop_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            m_lblNumeroCarte.Text = LectureNumeroCarte().ToString();
+            int NumCarte = LectureNumeroCarte();
+            m_lblNumeroCarte.Text = NumCarte.ToString();
+
+            if (BaseDeDonnees.EstAutorise(NumCarte))
+            {
+                label3.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                label3.BackColor = Color.LightCoral;
+            }
         }
 
         private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
@@ -57,7 +67,7 @@ namespace BeepBop
                 }
                 try
                 {
-                    this.m_serialPortRfid.PortName = this.m_TxtSerialPort.Text.ToString();
+                    this.m_serialPortRfid.PortName = "COM" + this.m_TxtSerialPort.Text.ToString();
                     this.m_serialPortRfid.BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
                     this.m_serialPortRfid.Open();
                     this.m_BpConnecterSerialPort.Text = "Se Déconnecter";
@@ -81,9 +91,31 @@ namespace BeepBop
             }
         }
 
-        private void m_TxtSerialPort_TextChanged(object sender, EventArgs e)
+        private void m_Timer2s_Tick(object sender, EventArgs e)
         {
+            Automate.Evolue(TEvent.TIMER2S);
+        }
 
+        private void m_BpAcquittement_Click(object sender, EventArgs e)
+        {
+            Automate.Evolue(TEvent.APPUIACQ);
+        }
+
+        public void FermerPortique()
+        {
+            Portique.Fermer();
+            Portique.Show();
+        }
+
+        public void OuvrirPortique()
+        {
+            Portique.Ouvrir();
+            Portique.Show();
+        }
+        public void ErreurPortique()
+        {
+            Portique.Erreur();
+            Portique.Show();
         }
     }
 }

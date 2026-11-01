@@ -1,6 +1,6 @@
 ﻿namespace BeepBop
 {
-    partial class CBeepBopBase
+    partial class CRfid
     {
         /// <summary>
         /// Variable nécessaire au concepteur.

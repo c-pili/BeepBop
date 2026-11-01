@@ -1,6 +1,6 @@
 ﻿namespace BeepBop
 {
-    partial class CBeepBop
+    partial class CRfid
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -22,7 +22,7 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CBeepBop));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CRfid));
             this.m_serialPortRfid = new System.IO.Ports.SerialPort();
             this.m_lblNumeroCarte = new System.Windows.Forms.Label();
             this.m_BpConnecterSerialPort = new System.Windows.Forms.Button();

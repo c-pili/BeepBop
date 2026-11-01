@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    public partial class CBeepBop : Form
+    public partial class CRfid : Form
     {
         //private const string CportName = "COM3"; // Port du Lecteur RFID
         CAutomate Automate;
         CBaseDeDonnees BaseDeDonnees;
         CPortique Portique;
-        public CBeepBop()
+        public CRfid()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
