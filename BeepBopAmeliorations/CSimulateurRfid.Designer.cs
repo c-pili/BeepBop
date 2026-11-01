@@ -36,7 +36,7 @@
             // 
             // m_BpBadger
             // 
-            this.m_BpBadger.Location = new System.Drawing.Point(427, 202);
+            this.m_BpBadger.Location = new System.Drawing.Point(255, 191);
             this.m_BpBadger.Name = "m_BpBadger";
             this.m_BpBadger.Size = new System.Drawing.Size(131, 45);
             this.m_BpBadger.TabIndex = 0;
@@ -47,21 +47,21 @@
             // m_TxtBoxNumCarte
             // 
             this.m_TxtBoxNumCarte.FormattingEnabled = true;
-            this.m_TxtBoxNumCarte.Location = new System.Drawing.Point(244, 213);
+            this.m_TxtBoxNumCarte.Location = new System.Drawing.Point(72, 202);
             this.m_TxtBoxNumCarte.Name = "m_TxtBoxNumCarte";
             this.m_TxtBoxNumCarte.Size = new System.Drawing.Size(143, 24);
             this.m_TxtBoxNumCarte.TabIndex = 1;
             // 
             // m_TxtAjouterNumCarte
             // 
-            this.m_TxtAjouterNumCarte.Location = new System.Drawing.Point(244, 134);
+            this.m_TxtAjouterNumCarte.Location = new System.Drawing.Point(72, 123);
             this.m_TxtAjouterNumCarte.Name = "m_TxtAjouterNumCarte";
             this.m_TxtAjouterNumCarte.Size = new System.Drawing.Size(143, 22);
             this.m_TxtAjouterNumCarte.TabIndex = 2;
             // 
             // m_BpAjouterNumCarte
             // 
-            this.m_BpAjouterNumCarte.Location = new System.Drawing.Point(427, 123);
+            this.m_BpAjouterNumCarte.Location = new System.Drawing.Point(255, 112);
             this.m_BpAjouterNumCarte.Name = "m_BpAjouterNumCarte";
             this.m_BpAjouterNumCarte.Size = new System.Drawing.Size(131, 45);
             this.m_BpAjouterNumCarte.TabIndex = 3;
@@ -73,7 +73,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(502, 403);
             this.Controls.Add(this.m_BpAjouterNumCarte);
             this.Controls.Add(this.m_TxtAjouterNumCarte);
             this.Controls.Add(this.m_TxtBoxNumCarte);

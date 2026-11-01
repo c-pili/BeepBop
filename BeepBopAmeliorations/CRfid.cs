@@ -41,7 +41,15 @@ namespace BeepBop
             */
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
+
             this.m_BoxNumPortique.Text = "Selectionne le numero du portique";
+            this.m_TxtBoxListesCartes.Text = "Listes des cartes";
+            this.m_TxtBoxOutils.Text = "Outils";
+            this.m_TxtBoxListOutils.Text = "Propriété";
+
+            this.m_TxtBoxOutils.Items.Add("Duree Validitee");
+            this.m_TxtBoxOutils.Items.Add("Autorisée");
+            this.m_TxtBoxOutils.Items.Add("Supprimer");
         }
 
         private int LectureNumeroCarte(int index)
@@ -172,7 +180,6 @@ namespace BeepBop
                 Automate = new CAutomate[NbrPortique];
                 m_serialPortRfid = new SerialPort[NbrPortique];
                 m_Portique = new TPortique[NbrPortique]; //fenetre portique
-                BaseDeDonnees = new CBaseDeDonnees(this.TempMinPassage);
 
                 this.m_BoxNumPortique.Items.Clear();
                 for (int i = NbrPortique; i > 0; i--)
@@ -194,9 +201,9 @@ namespace BeepBop
 
         private void m_BoxNumPortique_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.m_TxtSerialPort.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Port).ToString());
-            this.m_TxtSerialBaud.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Baud).ToString());
-            this.m_BpConnecterSerialPort.Text = m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Connectee ? "Se Déconnecter" : "Se Connecter";
+            this.m_TxtSerialPort.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Port).ToString());
+            this.m_TxtSerialBaud.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Baud).ToString());
+            this.m_BpConnecterSerialPort.Text = m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Connectee ? "Se Déconnecter" : "Se Connecter";
         }
 
         private void m_TxtTpOuverturePortique_TextChanged(object sender, EventArgs e)
@@ -215,6 +222,13 @@ namespace BeepBop
                 return;
             }
             this.TempMinPassage = int.Parse(this.m_TxtTpMinPassage.Text);
+            BaseDeDonnees = new CBaseDeDonnees(this.TempMinPassage);
+
+            this.m_TxtBoxListesCartes.Items.Clear();
+            for (int i = 0; i < BaseDeDonnees.N_FORFAITS; i++)
+            {
+                this.m_TxtBoxListesCartes.Items.Add(BaseDeDonnees.m_forfaits[i].m_NumeroCarte);
+            }
         }
 
         private void m_BpSimulateurRfid_Click(object sender, EventArgs e)
@@ -248,6 +262,86 @@ namespace BeepBop
             else
             {
                 Automate[index].Evolue(TEvent.NON_AUTORISEE, NumCarte);
+            }
+        }
+
+        private void m_BpAjouterNumCarte_Click(object sender, EventArgs e)
+        {
+            if(this.m_BpAjouterNumCarte.Text == "")
+            {
+                MessageBox.Show("Veuillez mettre un numero de forfait");
+                return;
+            }
+            BaseDeDonnees.AjouterForfait(int.Parse(this.m_BpAjouterNumCarte.ToString()));
+        }
+
+        private void m_TxtBoxOutils_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = BaseDeDonnees.IndexForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()));
+            if (this.m_TxtBoxOutils.Text == "Duree Validitee")
+            {
+                this.m_TxtBoxListOutils.Items.Clear();
+                this.m_TxtBoxListOutils.Items.Add("1j");
+                this.m_TxtBoxListOutils.Items.Add("5j");
+                this.m_TxtBoxListOutils.Items.Add("7j");
+                this.m_TxtBoxListOutils.Items.Add("14j");
+
+                this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_DureeValidite.ToString();
+            }
+            else if(this.m_TxtBoxOutils.Text == "Autorisée")
+            {
+                this.m_TxtBoxListOutils.Items.Clear();
+                this.m_TxtBoxListOutils.Items.Add("True");
+                this.m_TxtBoxListOutils.Items.Add("False");
+
+                this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_estAutorise.ToString();
+            }
+            else if(this.m_TxtBoxOutils.Text == "Supprimer")
+            {
+                this.m_TxtBoxListOutils.Items.Clear();
+                this.m_TxtBoxListOutils.Items.Add("True");
+                this.m_TxtBoxListOutils.Items.Add("False");
+
+                this.m_TxtBoxListOutils.Text = "False";
+            }
+        }
+
+        private void m_BpModifierCarte_Click(object sender, EventArgs e)
+        {
+            if(this.m_TxtBoxListOutils.Text == "")
+            {
+                MessageBox.Show("Veuillez mettre un numero de forfait ou selectionner un forfait");
+                return;
+            }
+            else if (this.m_TxtBoxOutils.SelectedItem == "Duree Validitee")
+            {
+                BaseDeDonnees.ChangerValiditee(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), this.m_TxtBoxListOutils.SelectedItem.ToString());
+            }
+            else if(this.m_TxtBoxOutils.SelectedItem == "Autorisée")
+            {
+                bool Autorisation;
+                if(this.m_TxtBoxListOutils.SelectedItem == "True")
+                {
+                    Autorisation = true;
+                }
+                else
+                {
+                    Autorisation = false;
+                }
+                BaseDeDonnees.ChangerAutorisation(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), Autorisation);
+            }
+            else if (this.m_TxtBoxOutils.SelectedItem == "Supprimer")
+            {
+                bool Supprimer;
+                if (this.m_TxtBoxListOutils.SelectedItem == "True")
+                {
+                    Supprimer = true;
+                }
+                else
+                {
+                    Supprimer = false;
+                }
+                BaseDeDonnees.SupprimerForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()));
             }
         }
     }

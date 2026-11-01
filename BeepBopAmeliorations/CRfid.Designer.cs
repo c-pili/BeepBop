@@ -43,6 +43,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.m_BpSimulateurRfid = new System.Windows.Forms.Button();
+            this.m_TxtBoxListesCartes = new System.Windows.Forms.ComboBox();
+            this.m_TxtAjouterCarte = new System.Windows.Forms.TextBox();
+            this.m_BpAjouterNumCarte = new System.Windows.Forms.Button();
+            this.m_TxtBoxOutils = new System.Windows.Forms.ComboBox();
+            this.m_BpModifierCarte = new System.Windows.Forms.Button();
+            this.m_TxtBoxListOutils = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // m_lblNumeroCarte
@@ -105,7 +111,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(570, 167);
+            this.label3.Location = new System.Drawing.Point(564, 207);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 16);
             this.label3.TabIndex = 6;
@@ -130,7 +136,7 @@
             // m_TxtNbrPortique
             // 
             this.m_TxtNbrPortique.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.m_TxtNbrPortique.Location = new System.Drawing.Point(368, 92);
+            this.m_TxtNbrPortique.Location = new System.Drawing.Point(262, 90);
             this.m_TxtNbrPortique.Name = "m_TxtNbrPortique";
             this.m_TxtNbrPortique.Size = new System.Drawing.Size(108, 22);
             this.m_TxtNbrPortique.TabIndex = 8;
@@ -140,7 +146,7 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(223, 92);
+            this.label4.Location = new System.Drawing.Point(117, 90);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(127, 16);
             this.label4.TabIndex = 9;
@@ -161,7 +167,7 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(192, 40);
+            this.label6.Location = new System.Drawing.Point(86, 38);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(158, 16);
             this.label6.TabIndex = 20;
@@ -170,7 +176,7 @@
             // m_TxtTpOuverturePortique
             // 
             this.m_TxtTpOuverturePortique.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.m_TxtTpOuverturePortique.Location = new System.Drawing.Point(368, 37);
+            this.m_TxtTpOuverturePortique.Location = new System.Drawing.Point(262, 35);
             this.m_TxtTpOuverturePortique.Name = "m_TxtTpOuverturePortique";
             this.m_TxtTpOuverturePortique.Size = new System.Drawing.Size(108, 22);
             this.m_TxtTpOuverturePortique.TabIndex = 19;
@@ -180,7 +186,7 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(190, 65);
+            this.label5.Location = new System.Drawing.Point(84, 63);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(160, 16);
             this.label5.TabIndex = 18;
@@ -189,7 +195,7 @@
             // m_TxtTpMinPassage
             // 
             this.m_TxtTpMinPassage.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.m_TxtTpMinPassage.Location = new System.Drawing.Point(368, 65);
+            this.m_TxtTpMinPassage.Location = new System.Drawing.Point(262, 63);
             this.m_TxtTpMinPassage.Name = "m_TxtTpMinPassage";
             this.m_TxtTpMinPassage.Size = new System.Drawing.Size(108, 22);
             this.m_TxtTpMinPassage.TabIndex = 17;
@@ -199,7 +205,7 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(482, 40);
+            this.label7.Location = new System.Drawing.Point(376, 38);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 16);
             this.label7.TabIndex = 21;
@@ -209,7 +215,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(482, 71);
+            this.label8.Location = new System.Drawing.Point(376, 69);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(14, 16);
             this.label8.TabIndex = 22;
@@ -226,9 +232,76 @@
             this.m_BpSimulateurRfid.UseVisualStyleBackColor = true;
             this.m_BpSimulateurRfid.Click += new System.EventHandler(this.m_BpSimulateurRfid_Click);
             // 
+            // m_TxtBoxListesCartes
+            // 
+            this.m_TxtBoxListesCartes.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.m_TxtBoxListesCartes.FormattingEnabled = true;
+            this.m_TxtBoxListesCartes.Location = new System.Drawing.Point(496, 90);
+            this.m_TxtBoxListesCartes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.m_TxtBoxListesCartes.Name = "m_TxtBoxListesCartes";
+            this.m_TxtBoxListesCartes.Size = new System.Drawing.Size(108, 24);
+            this.m_TxtBoxListesCartes.TabIndex = 24;
+            // 
+            // m_TxtAjouterCarte
+            // 
+            this.m_TxtAjouterCarte.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_TxtAjouterCarte.Location = new System.Drawing.Point(496, 35);
+            this.m_TxtAjouterCarte.Name = "m_TxtAjouterCarte";
+            this.m_TxtAjouterCarte.Size = new System.Drawing.Size(108, 22);
+            this.m_TxtAjouterCarte.TabIndex = 25;
+            // 
+            // m_BpAjouterNumCarte
+            // 
+            this.m_BpAjouterNumCarte.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_BpAjouterNumCarte.Location = new System.Drawing.Point(619, 26);
+            this.m_BpAjouterNumCarte.Name = "m_BpAjouterNumCarte";
+            this.m_BpAjouterNumCarte.Size = new System.Drawing.Size(108, 40);
+            this.m_BpAjouterNumCarte.TabIndex = 26;
+            this.m_BpAjouterNumCarte.Text = "Ajouter Carte";
+            this.m_BpAjouterNumCarte.UseVisualStyleBackColor = true;
+            this.m_BpAjouterNumCarte.Click += new System.EventHandler(this.m_BpAjouterNumCarte_Click);
+            // 
+            // m_TxtBoxOutils
+            // 
+            this.m_TxtBoxOutils.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.m_TxtBoxOutils.FormattingEnabled = true;
+            this.m_TxtBoxOutils.Location = new System.Drawing.Point(619, 77);
+            this.m_TxtBoxOutils.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.m_TxtBoxOutils.Name = "m_TxtBoxOutils";
+            this.m_TxtBoxOutils.Size = new System.Drawing.Size(108, 24);
+            this.m_TxtBoxOutils.TabIndex = 27;
+            this.m_TxtBoxOutils.SelectedIndexChanged += new System.EventHandler(this.m_TxtBoxOutils_SelectedIndexChanged);
+            // 
+            // m_BpModifierCarte
+            // 
+            this.m_BpModifierCarte.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_BpModifierCarte.Location = new System.Drawing.Point(567, 140);
+            this.m_BpModifierCarte.Name = "m_BpModifierCarte";
+            this.m_BpModifierCarte.Size = new System.Drawing.Size(108, 40);
+            this.m_BpModifierCarte.TabIndex = 28;
+            this.m_BpModifierCarte.Text = "Modifier";
+            this.m_BpModifierCarte.UseVisualStyleBackColor = true;
+            this.m_BpModifierCarte.Click += new System.EventHandler(this.m_BpModifierCarte_Click);
+            // 
+            // m_TxtBoxListOutils
+            // 
+            this.m_TxtBoxListOutils.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.m_TxtBoxListOutils.FormattingEnabled = true;
+            this.m_TxtBoxListOutils.Location = new System.Drawing.Point(619, 111);
+            this.m_TxtBoxListOutils.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.m_TxtBoxListOutils.Name = "m_TxtBoxListOutils";
+            this.m_TxtBoxListOutils.Size = new System.Drawing.Size(108, 24);
+            this.m_TxtBoxListOutils.TabIndex = 29;
+            // 
             // CRfid
             // 
             this.ClientSize = new System.Drawing.Size(831, 436);
+            this.Controls.Add(this.m_TxtBoxListOutils);
+            this.Controls.Add(this.m_BpModifierCarte);
+            this.Controls.Add(this.m_TxtBoxOutils);
+            this.Controls.Add(this.m_BpAjouterNumCarte);
+            this.Controls.Add(this.m_TxtAjouterCarte);
+            this.Controls.Add(this.m_TxtBoxListesCartes);
             this.Controls.Add(this.m_BpSimulateurRfid);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -275,6 +348,12 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button m_BpSimulateurRfid;
+        private System.Windows.Forms.ComboBox m_TxtBoxListesCartes;
+        private System.Windows.Forms.TextBox m_TxtAjouterCarte;
+        private System.Windows.Forms.Button m_BpAjouterNumCarte;
+        private System.Windows.Forms.ComboBox m_TxtBoxOutils;
+        private System.Windows.Forms.Button m_BpModifierCarte;
+        private System.Windows.Forms.ComboBox m_TxtBoxListOutils;
     }
 }
 
