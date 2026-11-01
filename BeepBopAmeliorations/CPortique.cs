@@ -10,8 +10,6 @@ namespace BeepBop
 {
     internal class CPortique:Form
     {
-        private CheckBox checkBox1;
-        private ListBox listBox1;
         private RichTextBox m_TxtBoxConsole;
 
         public CPortique()

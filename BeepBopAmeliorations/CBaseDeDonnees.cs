@@ -11,13 +11,19 @@ namespace BeepBop
     {
         public int m_NumeroCarte;
         public bool m_estAutorise;
+        public TSecteur m_secteur;
         public DateTime m_DernierPassage;
         public DateTime m_DureeValidite;
     }
+
+    public enum TSecteur { CHATEL = 0, AVORIAZ, PORTESDUSOLEIL};
     public class CBaseDeDonnees
     {
         public Forfait[] m_forfaits;
-        public int N_FORFAITS = 6;
+        TSecteur Secteur;
+        public TSecteur[] SecteurPortique;
+        public const int N_FORFAITS = 15;
+        public int NbrForfaitUtilisee = 6;
         private float temp_passage;
         public CBaseDeDonnees(float x_temp_passage)
         {
@@ -25,6 +31,7 @@ namespace BeepBop
 
             this.m_forfaits[0].m_NumeroCarte = 24393;
             this.m_forfaits[0].m_estAutorise = true;
+            this.m_forfaits[0].m_secteur = TSecteur.AVORIAZ;
             this.m_forfaits[0].m_DureeValidite = DateTime.Now.AddDays(30);
 
             this.m_forfaits[1].m_NumeroCarte = 22033;
@@ -49,9 +56,9 @@ namespace BeepBop
 
             this.temp_passage = x_temp_passage;
         }
-        public bool EstAutorise(int x_numeroCarte)
+        public bool EstAutorise(int x_numeroCarte, int x_indexPortique)
         {
-            for (int i = 0; i < N_FORFAITS; i++)
+            for (int i = 0; i < NbrForfaitUtilisee; i++)
             {
                 if (m_forfaits[i].m_NumeroCarte == x_numeroCarte)
                 {
@@ -59,6 +66,7 @@ namespace BeepBop
                     {
                         if(this.m_forfaits[i].m_DureeValidite > DateTime.Now)
                         {
+                            if (this.m_forfaits[i].m_secteur == this.SecteurPortique[x_indexPortique-1])
                             m_forfaits[i].m_DernierPassage = DateTime.Now;
                             return m_forfaits[i].m_estAutorise;
                         }
@@ -112,14 +120,59 @@ namespace BeepBop
             this.m_forfaits[index].m_DureeValidite = DateTime.Now.AddDays(NumJour);
         }
 
+        public void ChangerSecteur(int NumForfait, string secteur)
+        {
+            int index = IndexForfait(NumForfait);
+            int NumSecteur = 0;
+            switch (secteur)
+            {
+                case "Chatel":
+                    NumSecteur = 0;
+                    break;
+
+                case "Avoriaz":
+                    NumSecteur = 1;
+                    break;
+
+                case "Portes du Soleil":
+                    NumSecteur = 2;
+                    break;
+            }
+            this.m_forfaits[index].m_secteur = (TSecteur)NumSecteur;
+        }
+
         public void SupprimerForfait(int NumForfait)
         {
             int index = IndexForfait(NumForfait);
             this.m_forfaits[index].m_NumeroCarte = 0;
         }
-        public void AjouterForfait(int Num)
-        {   
-            this.m_forfaits
+        public void AjouterForfait(int NumForfait)
+        {
+            this.m_forfaits[NbrForfaitUtilisee].m_NumeroCarte = NumForfait;
+            this.NbrForfaitUtilisee++;
+        }
+
+        public void CreePortique(int NbrPortique)
+        {
+            SecteurPortique = new TSecteur[NbrPortique];
+        }
+
+        public void ModifierSecteur(int x_indexPortique, string x_secteur)
+        {
+            int NumSecteur = 0;
+            switch (x_secteur)
+            {
+                case "Chatel":
+                    NumSecteur = 0;
+                    break;
+                case "Avoriaz":
+                    NumSecteur = 1;
+                    break;
+                case "Portes du Soleil":
+                    NumSecteur = 2;
+                    break;
+            }
+            this.SecteurPortique[x_indexPortique - 1] = (TSecteur)NumSecteur;
         }
     }
 }

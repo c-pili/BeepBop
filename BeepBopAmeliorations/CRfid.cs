@@ -22,7 +22,6 @@ namespace BeepBop
         private int NbrPortique;
         private int DureeOuverture;
         private float TempMinPassage;
-        private int m_TempTimerSecondes;
         public struct TPortique
         {
             public bool Connectee;
@@ -38,6 +37,9 @@ namespace BeepBop
              * -> Ajout parametre tp passage min + Ouverture portique
              * -> Ajout date de validité forfait(en jour)
              * -> Ajout TxtBox pour chaque portique
+             * -> Ajout Simulateur pour chaque portique
+             * -> Ajout Modification Forfait
+             * -> Ajout Secteur Forfait
             */
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
@@ -46,10 +48,17 @@ namespace BeepBop
             this.m_TxtBoxListesCartes.Text = "Listes des cartes";
             this.m_TxtBoxOutils.Text = "Outils";
             this.m_TxtBoxListOutils.Text = "Propriété";
+            this.m_TxtBoxSecteurPortique.Text = "Choix Portiques";
+            this.m_TxtBoxSecteur.Text = "Choix du Secteur";
 
             this.m_TxtBoxOutils.Items.Add("Duree Validitee");
             this.m_TxtBoxOutils.Items.Add("Autorisée");
             this.m_TxtBoxOutils.Items.Add("Supprimer");
+            this.m_TxtBoxOutils.Items.Add("Secteur");
+
+            this.m_TxtBoxSecteur.Items.Add("Chatel");
+            this.m_TxtBoxSecteur.Items.Add("Avoriaz");
+            this.m_TxtBoxSecteur.Items.Add("Portes du Soleil");
         }
 
         private int LectureNumeroCarte(int index)
@@ -70,7 +79,7 @@ namespace BeepBop
 
             m_Portique[index].trame = LectureNumeroCarte(index); //num carte
 
-            bool Autorisée = BaseDeDonnees.EstAutorise(m_Portique[index].trame);
+            bool Autorisée = BaseDeDonnees.EstAutorise(m_Portique[index].trame, index + 1);
             if (Autorisée)
             {
                 Automate[index].Evolue(TEvent.AUTORISEE, m_Portique[index].trame);
@@ -176,15 +185,17 @@ namespace BeepBop
             {
                 this.NbrPortique = int.Parse(this.m_TxtNbrPortique.Text);
 
-                Portique = new CPortique[NbrPortique]; // tableau de portique
-                Automate = new CAutomate[NbrPortique];
-                m_serialPortRfid = new SerialPort[NbrPortique];
-                m_Portique = new TPortique[NbrPortique]; //fenetre portique
+                Portique = new CPortique[this.NbrPortique]; // tableau de portique
+                Automate = new CAutomate[this.NbrPortique];
+                m_serialPortRfid = new SerialPort[this.NbrPortique];
+                m_Portique = new TPortique[this.NbrPortique]; //fenetre portique
+                BaseDeDonnees.CreePortique(this.NbrPortique);
 
                 this.m_BoxNumPortique.Items.Clear();
                 for (int i = NbrPortique; i > 0; i--)
                 {
                     this.m_BoxNumPortique.Items.Add(i);
+                    this.m_TxtBoxSecteurPortique.Items.Add(i);
 
                     Portique[i - 1] = new CPortique();
                     Automate[i - 1] = new CAutomate(this, this.DureeOuverture, i);
@@ -212,7 +223,14 @@ namespace BeepBop
             {
                 return;
             }
-            this.DureeOuverture = int.Parse(this.m_TxtTpOuverturePortique.Text);
+            try
+            {
+                this.DureeOuverture = int.Parse(this.m_TxtTpOuverturePortique.Text);
+            }
+            catch (Exception x_exception)
+            {
+                MessageBox.Show(x_exception.Message);
+            }
         }
 
         private void m_TxtTpMinPassage_TextChanged(object sender, EventArgs e)
@@ -221,13 +239,34 @@ namespace BeepBop
             {
                 return;
             }
-            this.TempMinPassage = int.Parse(this.m_TxtTpMinPassage.Text);
-            BaseDeDonnees = new CBaseDeDonnees(this.TempMinPassage);
-
-            this.m_TxtBoxListesCartes.Items.Clear();
-            for (int i = 0; i < BaseDeDonnees.N_FORFAITS; i++)
+            try
             {
-                this.m_TxtBoxListesCartes.Items.Add(BaseDeDonnees.m_forfaits[i].m_NumeroCarte);
+                this.TempMinPassage = int.Parse(this.m_TxtTpMinPassage.Text);
+                BaseDeDonnees = new CBaseDeDonnees(this.TempMinPassage);
+
+                AfficherNumCarte();
+            }
+            catch (Exception x_exception)
+            {
+                MessageBox.Show(x_exception.Message);
+                return;
+            }
+
+        }
+
+        public void AfficherNumCarte()
+        {
+            this.m_TxtBoxListesCartes.Items.Clear();
+            for (int i = 0; i < BaseDeDonnees.NbrForfaitUtilisee; i++)
+            {
+                if(BaseDeDonnees.m_forfaits[i].m_NumeroCarte == 0)
+                {
+
+                }
+                else
+                {
+                    this.m_TxtBoxListesCartes.Items.Add(BaseDeDonnees.m_forfaits[i].m_NumeroCarte);
+                }
             }
         }
 
@@ -238,9 +277,14 @@ namespace BeepBop
                 MessageBox.Show("Veuillez renseigner une duree d'ouverture du portique avant simulation");
                 return;
             }
-            if (this.m_TxtTpMinPassage.Text == "")
+            else if (this.m_TxtTpMinPassage.Text == "")
             {
                 MessageBox.Show("Veuillez renseigner un temp de passage minimum entre 2 forfait");
+                return;
+            }
+            else if(this.m_BoxNumPortique.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
             SimulateurRfid = new CSimulateurRfid[NbrPortique];
@@ -254,7 +298,7 @@ namespace BeepBop
             int NumCarte = spEmetteur.NumeroCarte;
             int index = Array.IndexOf(SimulateurRfid, spEmetteur);
 
-            bool Autorisée = BaseDeDonnees.EstAutorise(NumCarte);
+            bool Autorisée = BaseDeDonnees.EstAutorise(NumCarte, index + 1);
             if (Autorisée)
             {
                 Automate[index].Evolue(TEvent.AUTORISEE, NumCarte);
@@ -272,7 +316,21 @@ namespace BeepBop
                 MessageBox.Show("Veuillez mettre un numero de forfait");
                 return;
             }
-            BaseDeDonnees.AjouterForfait(int.Parse(this.m_BpAjouterNumCarte.ToString()));
+            else if(BaseDeDonnees == null)
+            {
+                MessageBox.Show("Veuillez ajouter le temps de passage entre 2 forfait");
+                return;
+            }
+            try
+            {
+                BaseDeDonnees.AjouterForfait(int.Parse(this.m_TxtAjouterCarte.Text.ToString()));
+                AfficherNumCarte();
+            }
+            catch (Exception x_exception)
+            {
+                MessageBox.Show(x_exception.Message);
+                return;
+            }
         }
 
         private void m_TxtBoxOutils_SelectedIndexChanged(object sender, EventArgs e)
@@ -304,6 +362,15 @@ namespace BeepBop
 
                 this.m_TxtBoxListOutils.Text = "False";
             }
+            else if (this.m_TxtBoxOutils.Text == "Secteur")
+            {
+                this.m_TxtBoxListOutils.Items.Clear();
+                this.m_TxtBoxListOutils.Items.Add("Chatel");
+                this.m_TxtBoxListOutils.Items.Add("Avoriaz");
+                this.m_TxtBoxListOutils.Items.Add("Portes du Soleil");
+
+                this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_secteur.ToString();
+            }
         }
 
         private void m_BpModifierCarte_Click(object sender, EventArgs e)
@@ -328,6 +395,11 @@ namespace BeepBop
                 {
                     Autorisation = false;
                 }
+                if(BaseDeDonnees == null)
+                {
+                    MessageBox.Show("Veuillez ajouter le temps de passage entre 2 forfait");
+                    return;
+                }
                 BaseDeDonnees.ChangerAutorisation(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), Autorisation);
             }
             else if (this.m_TxtBoxOutils.SelectedItem == "Supprimer")
@@ -342,7 +414,22 @@ namespace BeepBop
                     Supprimer = false;
                 }
                 BaseDeDonnees.SupprimerForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()));
+                AfficherNumCarte();
             }
+            else if (this.m_TxtBoxOutils.SelectedItem == "Secteur")
+            {
+                BaseDeDonnees.ChangerSecteur(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), this.m_TxtBoxListOutils.SelectedItem.ToString());
+            }
+        }
+
+        private void m_TxtBoxSecteurPortique_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.m_TxtBoxSecteur.Text = BaseDeDonnees.SecteurPortique[int.Parse(this.m_TxtBoxSecteurPortique.SelectedItem.ToString())-1].ToString();
+        }
+
+        private void m_BpSecteurModifier_Click(object sender, EventArgs e)
+        {
+            BaseDeDonnees.ModifierSecteur(int.Parse(this.m_TxtBoxSecteurPortique.SelectedItem.ToString()), this.m_TxtBoxSecteur.SelectedItem.ToString());
         }
     }
 }

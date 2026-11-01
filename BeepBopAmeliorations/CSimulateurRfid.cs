@@ -36,12 +36,12 @@ namespace BeepBop
 
         private void m_BpBadger_Click(object sender, EventArgs e)
         {
-            if(m_TxtBoxNumCarte.Text == null)
+            if(m_TxtBoxNumCarte.SelectedItem == null)
             {
                 MessageBox.Show("Veuillez Séléctionner un numéro de carte");
                 return;
             }
-            this.NumeroCarte = Int32.Parse(m_TxtBoxNumCarte.Text);
+            this.NumeroCarte = Int32.Parse(m_TxtBoxNumCarte.SelectedItem.ToString());
 
             this.BadgeScannee(this, EventArgs.Empty);
         }
