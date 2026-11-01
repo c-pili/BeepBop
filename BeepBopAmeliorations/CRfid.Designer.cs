@@ -42,6 +42,7 @@
             this.m_TxtTpMinPassage = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.m_BpSimulateurRfid = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // m_lblNumeroCarte
@@ -214,9 +215,21 @@
             this.label8.TabIndex = 22;
             this.label8.Text = "s";
             // 
-            // CBeepBop
+            // m_BpSimulateurRfid
+            // 
+            this.m_BpSimulateurRfid.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_BpSimulateurRfid.Location = new System.Drawing.Point(242, 252);
+            this.m_BpSimulateurRfid.Name = "m_BpSimulateurRfid";
+            this.m_BpSimulateurRfid.Size = new System.Drawing.Size(108, 40);
+            this.m_BpSimulateurRfid.TabIndex = 23;
+            this.m_BpSimulateurRfid.Text = "Simulateur RFID";
+            this.m_BpSimulateurRfid.UseVisualStyleBackColor = true;
+            this.m_BpSimulateurRfid.Click += new System.EventHandler(this.m_BpSimulateurRfid_Click);
+            // 
+            // CRfid
             // 
             this.ClientSize = new System.Drawing.Size(831, 436);
+            this.Controls.Add(this.m_BpSimulateurRfid);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -235,7 +248,7 @@
             this.Controls.Add(this.m_BpConnecterSerialPort);
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "CBeepBop";
+            this.Name = "CRfid";
             this.Text = "BeepBop Amelioration";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -261,6 +274,7 @@
         private System.Windows.Forms.TextBox m_TxtTpMinPassage;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button m_BpSimulateurRfid;
     }
 }
 

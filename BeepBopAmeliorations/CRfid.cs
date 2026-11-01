@@ -18,6 +18,7 @@ namespace BeepBop
         CBaseDeDonnees BaseDeDonnees;
         CPortique[] Portique;
         SerialPort[] m_serialPortRfid;
+        CSimulateurRfid[] SimulateurRfid;
         private int NbrPortique;
         private int DureeOuverture;
         private float TempMinPassage;
@@ -131,7 +132,7 @@ namespace BeepBop
                 MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
-            Automate[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Evolue(TEvent.APPUIACQ, 0);
+            Automate[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Evolue(TEvent.APPUIACQ, 0);
         }
 
         public void FermerPortique(int index)
@@ -179,11 +180,10 @@ namespace BeepBop
                     this.m_BoxNumPortique.Items.Add(i);
 
                     Portique[i - 1] = new CPortique();
-                    Automate[i - 1] = new CAutomate(this.DureeOuverture, NbrPortique);
+                    Automate[i - 1] = new CAutomate(this, this.DureeOuverture, i);
                     m_serialPortRfid[i - 1] = new SerialPort();
                     m_Portique[i - 1] = new TPortique();
-
-                    m_serialPortRfid[i-1].DataReceived += m_serialPortRfid_DataReceived;
+                    m_serialPortRfid[i - 1].DataReceived += m_serialPortRfid_DataReceived;
                 }
             }
             catch (Exception x_exception)
@@ -201,12 +201,54 @@ namespace BeepBop
 
         private void m_TxtTpOuverturePortique_TextChanged(object sender, EventArgs e)
         {
+            if(m_TxtTpOuverturePortique.Text == "")
+            {
+                return;
+            }
             this.DureeOuverture = int.Parse(this.m_TxtTpOuverturePortique.Text);
         }
 
         private void m_TxtTpMinPassage_TextChanged(object sender, EventArgs e)
         {
+            if (m_TxtTpMinPassage.Text == "")
+            {
+                return;
+            }
             this.TempMinPassage = int.Parse(this.m_TxtTpMinPassage.Text);
+        }
+
+        private void m_BpSimulateurRfid_Click(object sender, EventArgs e)
+        {
+            if (this.m_TxtTpOuverturePortique.Text == "")
+            {
+                MessageBox.Show("Veuillez renseigner une duree d'ouverture du portique avant simulation");
+                return;
+            }
+            if (this.m_TxtTpMinPassage.Text == "")
+            {
+                MessageBox.Show("Veuillez renseigner un temp de passage minimum entre 2 forfait");
+                return;
+            }
+            SimulateurRfid = new CSimulateurRfid[NbrPortique];
+            SimulateurRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1] = new CSimulateurRfid(int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())); // Instanciation de la fenêtre
+            SimulateurRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].BadgeScannee += SimulateurRfid_BadgeScannee;
+        }
+
+        private void SimulateurRfid_BadgeScannee(object sender, EventArgs e)
+        {
+            CSimulateurRfid spEmetteur = (CSimulateurRfid)sender;
+            int NumCarte = spEmetteur.NumeroCarte;
+            int index = Array.IndexOf(SimulateurRfid, spEmetteur);
+
+            bool Autorisée = BaseDeDonnees.EstAutorise(NumCarte);
+            if (Autorisée)
+            {
+                Automate[index].Evolue(TEvent.AUTORISEE, NumCarte);
+            }
+            else
+            {
+                Automate[index].Evolue(TEvent.NON_AUTORISEE, NumCarte);
+            }
         }
     }
 }
