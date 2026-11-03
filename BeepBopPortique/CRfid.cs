@@ -19,11 +19,9 @@ namespace BeepBop
         public CRfid()
         {
             InitializeComponent();
-            Control.CheckForIllegalCrossThreadCalls = false;
             BaseDeDonnees = new CBaseDeDonnees();
-            Automate = new CAutomate();
+            Automate = new CAutomate(this);
             Portique = new CPortique();
-            //this.m_serialPortRfid.Open();
         }
 
         private int LectureNumeroCarte()
@@ -39,16 +37,25 @@ namespace BeepBop
 
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            int NumCarte = LectureNumeroCarte();
-            m_lblNumeroCarte.Text = NumCarte.ToString();
+            try
+            {
+                int NumCarte = LectureNumeroCarte();
+                m_lblNumeroCarte.Text = NumCarte.ToString();
 
-            if (BaseDeDonnees.EstAutorise(NumCarte))
-            {
-                label3.BackColor = Color.LightGreen;
+                if (BaseDeDonnees.EstAutorise(NumCarte))
+                {
+                    label3.BackColor = Color.LightGreen;
+                    Automate.Evolue(TEvent.AUTORISEE);
+                }
+                else
+                {
+                    label3.BackColor = Color.LightCoral;
+                    Automate.Evolue(TEvent.NON_AUTORISEE);
+                }
             }
-            else
+            catch (Exception x_exception)
             {
-                label3.BackColor = Color.LightCoral;
+                MessageBox.Show(x_exception.Message);
             }
         }
 

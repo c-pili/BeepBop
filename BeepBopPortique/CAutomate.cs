@@ -17,10 +17,11 @@ namespace BeepBop
         non auto = erreur 2s -> durant 2s on peut acquitter avec un bouton
         */
         TEtat m_etat;
-        CRfid BeepBop;
+        CRfid Rfid;
         private System.Timers.Timer m_Timer;
-        public CAutomate()
+        public CAutomate(CRfid x_formMain)
         {
+            this.Rfid = x_formMain;
             this.m_Timer = new System.Timers.Timer();
             this.m_Timer.Interval = 2000;
             this.m_Timer.AutoReset = false;
@@ -34,10 +35,12 @@ namespace BeepBop
                 case TEtat.FERMEE:
                     if(x_Event == TEvent.AUTORISEE)
                     {
+                        this.m_Timer.Start();
                         this.m_etat = TEtat.OUVERT;
                     }
                     else if(x_Event == TEvent.NON_AUTORISEE)
                     {
+                        this.m_Timer.Start();
                         this.m_etat = TEtat.ERREUR;
                     }
                     break;
@@ -64,15 +67,15 @@ namespace BeepBop
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
-                    BeepBop.FermerPortique();
+                    Rfid.FermerPortique();
                     break;
 
                 case TEtat.OUVERT:
-                    BeepBop.OuvrirPortique();
+                    Rfid.OuvrirPortique();
                     break;
 
                 case TEtat.ERREUR:
-                    BeepBop.ErreurPortique();
+                    Rfid.ErreurPortique();
                     break;
             }
         }

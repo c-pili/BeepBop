@@ -10,14 +10,25 @@ namespace BeepBop
     enum TEvent {AUTORISEE, NON_AUTORISEE, TIMER2S, APPUIACQ }
     internal class CAutomate
     {
+        TEtat m_etat;
+        CRfid Rfid;
+        private System.Timers.Timer m_Timer;
         /*
         Graph Etat
         etat init = fermee
         autorisee = ouvert 2s
         non auto = erreur 2s -> durant 2s on peut acquitter avec un bouton
         */
-        TEtat m_etat;
-        CRfid BeepBop;
+
+        public CAutomate(CRfid x_FormMain)
+        {
+            this.Rfid = x_FormMain;
+
+            this.m_Timer = new System.Timers.Timer();
+            this.m_Timer.Interval = 2000;
+            this.m_Timer.AutoReset = false;
+            this.m_Timer.Elapsed += M_Timer_Elapsed;
+        }
 
         public void Evolue(TEvent x_Event)
         {
@@ -26,10 +37,12 @@ namespace BeepBop
                 case TEtat.FERMEE:
                     if(x_Event == TEvent.AUTORISEE)
                     {
+                        this.m_Timer.Start();
                         this.m_etat = TEtat.OUVERT;
                     }
                     else if(x_Event == TEvent.NON_AUTORISEE)
                     {
+                        this.m_Timer.Start();
                         this.m_etat = TEtat.ERREUR;
                     }
                     break;
@@ -56,17 +69,23 @@ namespace BeepBop
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
-                    BeepBop.FermerPortique();
+                    Rfid.FermerPortique();
                     break;
 
                 case TEtat.OUVERT:
-                    BeepBop.OuvrirPortique();
+                    Rfid.OuvrirPortique();
                     break;
 
                 case TEtat.ERREUR:
-                    BeepBop.ErreurPortique();
+                    Rfid.ErreurPortique();
                     break;
             }
+        }
+
+        private void M_Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Evolue(TEvent.TIMER2S);
+            this.m_Timer.Stop();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace BeepBop
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
             BaseDeDonnees = new CBaseDeDonnees();
-            Automate = new CAutomate();
+            Automate = new CAutomate(this);
             Portique = new CPortique();
             //this.m_serialPortRfid.Open();
         }
@@ -44,10 +44,12 @@ namespace BeepBop
             if (BaseDeDonnees.EstAutorise(NumCarte))
             {
                 label3.BackColor = Color.LightGreen;
+                Automate.Evolue(TEvent.AUTORISEE);
             }
             else
             {
                 label3.BackColor = Color.LightCoral;
+                Automate.Evolue(TEvent.NON_AUTORISEE);
             }
         }
 
@@ -89,11 +91,6 @@ namespace BeepBop
                     MessageBox.Show(x_exception.Message);
                 }
             }
-        }
-
-        private void m_Timer2s_Tick(object sender, EventArgs e)
-        {
-            Automate.Evolue(TEvent.TIMER2S);
         }
 
         private void m_BpAcquittement_Click(object sender, EventArgs e)

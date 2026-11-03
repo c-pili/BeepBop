@@ -9,6 +9,9 @@ namespace BeepBop
 {
     internal class CPortique:Form
     {
+        public CPortique()
+        {
+        }
         public void Ouvrir()
         {
             //passer le fond en vert

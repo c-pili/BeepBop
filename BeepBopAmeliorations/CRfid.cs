@@ -97,10 +97,10 @@ namespace BeepBop
                 MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
-            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Port = int.Parse(this.m_TxtSerialPort.Text);
-            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Baud = int.Parse(this.m_TxtSerialBaud.Text);
+            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Port = int.Parse(this.m_TxtSerialPort.Text);
+            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Baud = int.Parse(this.m_TxtSerialBaud.Text);
 
-            if (!this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee)
+            if (!this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Connectee)
             {
                 if (m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].PortName == "")
                 {
