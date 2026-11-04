@@ -87,10 +87,5 @@ namespace BeepBop
                 }
             }
         }
-
-        private void m_TxtSerialPort_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

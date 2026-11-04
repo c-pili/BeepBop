@@ -65,9 +65,12 @@ namespace BeepBop
         {
             // Récupération des 12 octets avec ReadExisting :
             string l_trame = this.m_serialPortRfid[index].ReadExisting();
-            int l_numeroCarte;
+            if(l_trame.Length < 12)
+            {
+                return 0;
+            }
             string l_derniersOctets = l_trame.Substring(7, 4);
-            l_numeroCarte = Int32.Parse(l_derniersOctets,
+            int l_numeroCarte = Int32.Parse(l_derniersOctets,
             System.Globalization.NumberStyles.HexNumber);
             return l_numeroCarte;
         }
@@ -78,6 +81,11 @@ namespace BeepBop
             int index = Array.IndexOf(this.m_serialPortRfid, spEmetteur); //numero du tableau du port com
 
             m_Portique[index].trame = LectureNumeroCarte(index); //num carte
+
+            if(m_Portique[index].trame == 0)
+            {
+                return;
+            }
 
             bool Autorisée = BaseDeDonnees.EstAutorise(m_Portique[index].trame, index + 1);
             if (Autorisée)
@@ -97,32 +105,33 @@ namespace BeepBop
                 MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
-            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Port = int.Parse(this.m_TxtSerialPort.Text);
-            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Baud = int.Parse(this.m_TxtSerialBaud.Text);
+            int index = int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1;
 
-            if (!this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Connectee)
+            if (!this.m_Portique[index].Connectee)
             {
-                if (m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].PortName == "")
+                if (this.m_TxtSerialPort.Text.ToString() == "")
                 {
                     MessageBox.Show("Veuillez choisir un port série");
                     return;
                 }
-                if (this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].BaudRate == 0)
+                if (int.Parse(this.m_TxtSerialBaud.Text) == 0)
                 {
                     MessageBox.Show("Veuillez choisir une vitesse de transmission en bauds");
                     return;
                 }
+                this.m_Portique[index].Port = int.Parse(this.m_TxtSerialPort.Text);
+                this.m_Portique[index].Baud = int.Parse(this.m_TxtSerialBaud.Text);
+
                 try
                 {
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].PortName = "COM" + this.m_TxtSerialPort.Text.ToString();
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Open();
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = true;
+                    this.m_serialPortRfid[index].PortName = "COM" + this.m_TxtSerialPort.Text.ToString();
+                    this.m_serialPortRfid[index].BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
+                    this.m_serialPortRfid[index].Open();
+                    this.m_Portique[index].Connectee = true;
                     this.m_BpConnecterSerialPort.Text = "Se Déconnecter";
                 }
                 catch (Exception x_exception)
                 {
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = false;
                     MessageBox.Show(x_exception.Message);
                 }
             }
@@ -130,13 +139,13 @@ namespace BeepBop
             {
                 try
                 {
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Close();
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = false;
+                    this.m_serialPortRfid[index].Close();
+                    this.m_Portique[index].Connectee = false;
                     this.m_BpConnecterSerialPort.Text = "Se Connecter";
                 }
                 catch (Exception x_exception)
                 {
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = true;
+                    this.m_Portique[index].Connectee = true;
                     MessageBox.Show(x_exception.Message);
                 }
             }
@@ -180,6 +189,11 @@ namespace BeepBop
                 MessageBox.Show("Veuillez choisir une durée de temps pour l'ouverture du portique");
                 return;
             }
+            else if(BaseDeDonnees == null)
+            {
+                MessageBox.Show("Veuillez remplir le temps entre 2 passage de forfait");
+                return;
+            }
 
             try
             {
@@ -199,7 +213,10 @@ namespace BeepBop
 
                     Portique[i - 1] = new CPortique();
                     Automate[i - 1] = new CAutomate(this, this.DureeOuverture, i);
+
                     m_serialPortRfid[i - 1] = new SerialPort();
+                    m_serialPortRfid[i - 1].DtrEnable = true;
+
                     m_Portique[i - 1] = new TPortique();
                     m_serialPortRfid[i - 1].DataReceived += m_serialPortRfid_DataReceived;
                 }
@@ -324,6 +341,7 @@ namespace BeepBop
             try
             {
                 BaseDeDonnees.AjouterForfait(int.Parse(this.m_TxtAjouterCarte.Text.ToString()));
+                m_TxtAjouterCarte.Text = "";
                 AfficherNumCarte();
             }
             catch (Exception x_exception)
@@ -335,6 +353,16 @@ namespace BeepBop
 
         private void m_TxtBoxOutils_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(BaseDeDonnees == null)
+            {
+                MessageBox.Show("Veuillez ajouter le temps de passage entre 2 forfait");
+                return;
+            }
+            else if(this.m_TxtBoxListesCartes.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez selectionner un forfait");
+                return;
+            }
             int index = BaseDeDonnees.IndexForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()));
             if (this.m_TxtBoxOutils.Text == "Duree Validitee")
             {
@@ -429,6 +457,16 @@ namespace BeepBop
 
         private void m_BpSecteurModifier_Click(object sender, EventArgs e)
         {
+            if(this.m_TxtBoxSecteurPortique.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez choisir un numéro de portique");
+                return;
+            }
+            else if (this.m_TxtBoxSecteur.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez choisir un secteur");
+                return;
+            }   
             BaseDeDonnees.ModifierSecteur(int.Parse(this.m_TxtBoxSecteurPortique.SelectedItem.ToString()), this.m_TxtBoxSecteur.SelectedItem.ToString());
         }
     }

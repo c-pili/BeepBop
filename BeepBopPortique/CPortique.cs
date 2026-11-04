@@ -11,6 +11,9 @@ namespace BeepBop
     {
         public CPortique()
         {
+            this.Text = "Portique";
+            this.BackColor = System.Drawing.Color.Orange;
+            this.Show();
         }
         public void Ouvrir()
         {

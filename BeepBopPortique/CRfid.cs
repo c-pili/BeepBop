@@ -19,6 +19,7 @@ namespace BeepBop
         public CRfid()
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
             BaseDeDonnees = new CBaseDeDonnees();
             Automate = new CAutomate(this);
             Portique = new CPortique();
@@ -28,9 +29,8 @@ namespace BeepBop
         {
             // Récupération des 12 octets avec ReadExisting :
             string l_trame = this.m_serialPortRfid.ReadExisting();
-            int l_numeroCarte;
             string l_derniersOctets = l_trame.Substring(7, 4);
-            l_numeroCarte = Int32.Parse(l_derniersOctets,
+            int l_numeroCarte = Int32.Parse(l_derniersOctets,
             System.Globalization.NumberStyles.HexNumber);
             return l_numeroCarte;
         }
@@ -107,18 +107,15 @@ namespace BeepBop
         public void FermerPortique()
         {
             Portique.Fermer();
-            Portique.Show();
         }
 
         public void OuvrirPortique()
         {
             Portique.Ouvrir();
-            Portique.Show();
         }
         public void ErreurPortique()
         {
             Portique.Erreur();
-            Portique.Show();
         }
     }
 }

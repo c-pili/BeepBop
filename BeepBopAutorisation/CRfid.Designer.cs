@@ -66,7 +66,6 @@
             this.m_TxtSerialPort.Name = "m_TxtSerialPort";
             this.m_TxtSerialPort.Size = new System.Drawing.Size(100, 22);
             this.m_TxtSerialPort.TabIndex = 2;
-            this.m_TxtSerialPort.TextChanged += new System.EventHandler(this.m_TxtSerialPort_TextChanged);
             // 
             // m_TxtSerialBaud
             // 
