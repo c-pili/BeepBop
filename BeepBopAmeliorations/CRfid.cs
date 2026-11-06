@@ -40,9 +40,10 @@ namespace BeepBop
              * -> Ajout Simulateur pour chaque portique
              * -> Ajout Modification Forfait
              * -> Ajout Secteur Forfait
+             * -> Changement dynamique des portiques (faut-il libérer la mememoire ? faut-il realloc en c# ?)
             */
             InitializeComponent();
-            Control.CheckForIllegalCrossThreadCalls = false;
+            Control.CheckForIllegalCrossThreadCalls = true;
 
             this.m_BoxNumPortique.Text = "Selectionne le numero du portique";
             this.m_TxtBoxListesCartes.Text = "Listes des cartes";
@@ -77,25 +78,36 @@ namespace BeepBop
 
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            SerialPort spEmetteur = (SerialPort)sender;
-            int index = Array.IndexOf(this.m_serialPortRfid, spEmetteur); //numero du tableau du port com
-
-            m_Portique[index].trame = LectureNumeroCarte(index); //num carte
-
-            if(m_Portique[index].trame == 0)
+            this.Invoke(new Action(() =>
             {
-                return;
-            }
+                try
+                {
+                    SerialPort spEmetteur = (SerialPort)sender;
+                    int index = Array.IndexOf(this.m_serialPortRfid, spEmetteur); //numero du tableau du port com
 
-            bool Autorisée = BaseDeDonnees.EstAutorise(m_Portique[index].trame, index + 1);
-            if (Autorisée)
-            {
-                Automate[index].Evolue(TEvent.AUTORISEE, m_Portique[index].trame);
-            }
-            else
-            {
-                Automate[index].Evolue(TEvent.NON_AUTORISEE, m_Portique[index].trame);
-            }
+                    m_Portique[index].trame = LectureNumeroCarte(index); //num carte
+
+                    if (m_Portique[index].trame == 0)
+                    {
+                        return;
+                    }
+
+                    bool Autorisée = BaseDeDonnees.EstAutorise(m_Portique[index].trame, index + 1);
+                    if (Autorisée)
+                    {
+                        Automate[index].Evolue(TEvent.AUTORISEE, m_Portique[index].trame);
+                    }
+                    else
+                    {
+                        Automate[index].Evolue(TEvent.NON_AUTORISEE, m_Portique[index].trame);
+                    }
+                }
+                catch (Exception x_exception)
+                {
+                    MessageBox.Show(x_exception.Message);
+                }
+
+            }));
         }
 
         private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
@@ -163,17 +175,32 @@ namespace BeepBop
 
         public void FermerPortique(int index)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => FermerPortique(index)));
+                return;
+            }
             Portique[index].Fermer(index);
             Portique[index].Show();
         }
 
         public void OuvrirPortique(int index, int NumForfait)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => OuvrirPortique(index, NumForfait)));
+                return;
+            }
             Portique[index].Ouvrir(index, NumForfait);
             Portique[index].Show();
         }
         public void ErreurPortique(int index, int NumForfait)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => ErreurPortique(index, NumForfait)));
+                return;
+            }
             Portique[index].Erreur(index, NumForfait);
             Portique[index].Show();
         }
@@ -206,6 +233,7 @@ namespace BeepBop
                 BaseDeDonnees.CreePortique(this.NbrPortique);
 
                 this.m_BoxNumPortique.Items.Clear();
+                this.m_TxtBoxSecteurPortique.Items.Clear();
                 for (int i = NbrPortique; i > 0; i--)
                 {
                     this.m_BoxNumPortique.Items.Add(i);
@@ -214,12 +242,15 @@ namespace BeepBop
                     Portique[i - 1] = new CPortique();
                     Automate[i - 1] = new CAutomate(this, this.DureeOuverture, i);
 
-                    m_serialPortRfid[i - 1] = new SerialPort();
-                    m_serialPortRfid[i - 1].DtrEnable = true;
+                    m_serialPortRfid[i - 1] = new SerialPort
+                    {
+                        DtrEnable = true
+                    };
 
                     m_Portique[i - 1] = new TPortique();
                     m_serialPortRfid[i - 1].DataReceived += m_serialPortRfid_DataReceived;
                 }
+                this.m_BoxNumPortique.Text = "Selectionne le numero du portique";
             }
             catch (Exception x_exception)
             {
@@ -311,18 +342,31 @@ namespace BeepBop
 
         private void SimulateurRfid_BadgeScannee(object sender, EventArgs e)
         {
-            CSimulateurRfid spEmetteur = (CSimulateurRfid)sender;
-            int NumCarte = spEmetteur.NumeroCarte;
-            int index = Array.IndexOf(SimulateurRfid, spEmetteur);
-
-            bool Autorisée = BaseDeDonnees.EstAutorise(NumCarte, index + 1);
-            if (Autorisée)
+            try
             {
-                Automate[index].Evolue(TEvent.AUTORISEE, NumCarte);
+                CSimulateurRfid spEmetteur = (CSimulateurRfid)sender;
+                int NumCarte = spEmetteur.NumeroCarte;
+                int index = Array.IndexOf(SimulateurRfid, spEmetteur);
+                //try { }
+                bool Autorisée = BaseDeDonnees.EstAutorise(NumCarte, index + 1);
+                if (Autorisée)
+                {
+                    Automate[index].Evolue(TEvent.AUTORISEE, NumCarte);
+                }
+                else
+                {
+                    Automate[index].Evolue(TEvent.NON_AUTORISEE, NumCarte);
+                }
             }
-            else
+            catch (System.IndexOutOfRangeException)
             {
-                Automate[index].Evolue(TEvent.NON_AUTORISEE, NumCarte);
+                MessageBox.Show("Le portique n'existe plus !");
+                return;
+            }
+            catch (Exception x_exception)
+            {
+                MessageBox.Show(x_exception.Message);
+                return;
             }
         }
 
@@ -403,7 +447,7 @@ namespace BeepBop
 
         private void m_BpModifierCarte_Click(object sender, EventArgs e)
         {
-            if(this.m_TxtBoxListOutils.Text == "")
+            if(this.m_TxtBoxListOutils.Text == "" || this.m_TxtBoxListesCartes.SelectedItem == null)
             {
                 MessageBox.Show("Veuillez mettre un numero de forfait ou selectionner un forfait");
                 return;
@@ -442,6 +486,7 @@ namespace BeepBop
                     Supprimer = false;
                 }
                 BaseDeDonnees.SupprimerForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()));
+                this.m_TxtBoxListesCartes.Text = "";
                 AfficherNumCarte();
             }
             else if (this.m_TxtBoxOutils.SelectedItem == "Secteur")
@@ -468,6 +513,16 @@ namespace BeepBop
                 return;
             }   
             BaseDeDonnees.ModifierSecteur(int.Parse(this.m_TxtBoxSecteurPortique.SelectedItem.ToString()), this.m_TxtBoxSecteur.SelectedItem.ToString());
+        }
+
+        private void m_TxtBoxSecteur_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.m_TxtBoxSecteurPortique.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez choisir un numéro de portique");
+                return;
+
+            }
         }
     }
 }

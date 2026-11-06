@@ -27,6 +27,11 @@ namespace BeepBop
 
         public void Ouvrir(int index, int NumForfait)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => Ouvrir(index, NumForfait)));
+                return;
+            }
             //passer le fond en vert
             this.Text = "Portique " + (index + 1).ToString();
             this.m_TxtBoxConsole.AppendText("[" + (DateTime.Now) + "]" + "Ouverture forfait :" + (NumForfait) + Environment.NewLine);
@@ -35,6 +40,11 @@ namespace BeepBop
 
         public void Fermer(int index)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => Fermer(index)));
+                return;
+            }
             //passer le fond en orange
             this.Text = "Portique " + (index + 1).ToString();
             this.m_TxtBoxConsole.AppendText("[" + (DateTime.Now) + "]" + "Fermeture" + Environment.NewLine);
@@ -43,6 +53,11 @@ namespace BeepBop
 
         public void Erreur(int index, int NumForfait)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => Erreur(index, NumForfait)));
+                return;
+            }
             //passer le fond en rouge
             this.Text = "Portique " + (index + 1).ToString();
             this.m_TxtBoxConsole.AppendText("[" + (DateTime.Now) + "]" + "Erreur forfait :" + (NumForfait) + Environment.NewLine);

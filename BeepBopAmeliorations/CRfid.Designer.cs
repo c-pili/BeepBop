@@ -364,6 +364,7 @@
             this.m_TxtBoxSecteur.Name = "m_TxtBoxSecteur";
             this.m_TxtBoxSecteur.Size = new System.Drawing.Size(108, 24);
             this.m_TxtBoxSecteur.TabIndex = 35;
+            this.m_TxtBoxSecteur.SelectedIndexChanged += new System.EventHandler(this.m_TxtBoxSecteur_SelectedIndexChanged);
             // 
             // m_BpSecteurModifier
             // 
