@@ -39,12 +39,13 @@ namespace BeepBop
              * Amelioration
              * -> Ajout parametre tp passage min + Ouverture portique
              * -> Ajout date de validité forfait(en jour)
-             * -> Ajout TxtBox pour chaque portique
+             * -> Ajout TxtBox(console) pour chaque portique
              * -> Ajout Simulateur pour chaque portique
              * -> Ajout Modification Forfait
              * -> Ajout Secteur Forfait
              * -> Changement dynamique des portiques (faut-il libérer la mememoire ? faut-il realloc en c# ?)
             */
+
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = true;
 
@@ -252,39 +253,39 @@ namespace BeepBop
                     Portique[i - 1] = new CPortique(); // Instanciation de la fenêtre
                     Automate[i - 1] = new CAutomate(this, this.DureeOuverture, i); // Instanciation de l'automate pour chaque portique
 
-                    m_serialPortRfid[i - 1] = new SerialPort //
+                    m_serialPortRfid[i - 1] = new SerialPort //instancie serial port pour chaque portique
                     {
-                        DtrEnable = true
+                        DtrEnable = true //active le dtr pour chaque serial port
                     };
 
-                    m_Portique[i - 1] = new TPortique();
-                    m_serialPortRfid[i - 1].DataReceived += m_serialPortRfid_DataReceived;
+                    m_Portique[i - 1] = new TPortique(); //instancie la structure portique pour chaque portique
+                    m_serialPortRfid[i - 1].DataReceived += m_serialPortRfid_DataReceived; //ajoute l'evenement de reception de données pour chaque serial port
                 }
                 this.m_BoxNumPortique.Text = "Selectionne le numero du portique";
             }
-            catch (Exception x_exception)
+            catch (Exception x_exception) //si erreur
             {
                 MessageBox.Show(x_exception.Message);
             }
         }
 
-        private void m_BoxNumPortique_SelectedIndexChanged(object sender, EventArgs e)
+        private void m_BoxNumPortique_SelectedIndexChanged(object sender, EventArgs e) //permet de changer le port et le baud du portique selectionné
         {
-            this.m_TxtSerialPort.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Port).ToString());
-            this.m_TxtSerialBaud.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Baud).ToString());
+            this.m_TxtSerialPort.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Port).ToString()); //met les valeur de port enregistyrer pour le portique selectionné
+            this.m_TxtSerialBaud.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Baud).ToString()); //met les valeur de baud enregistyrer pour le portique selectionné
             this.m_BpConnecterSerialPort.Text = m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Connectee ? "Se Déconnecter" : "Se Connecter";
             this.m_LblCarteNum.Text = "Carte N° : ";
         }
 
         private void m_TxtTpOuverturePortique_TextChanged(object sender, EventArgs e)
         {
-            if(m_TxtTpOuverturePortique.Text == "")
+            if(m_TxtTpOuverturePortique.Text == "") //si rien ecrit en duree ouverture portique
             {
                 return;
             }
             try
             {
-                this.DureeOuverture = int.Parse(this.m_TxtTpOuverturePortique.Text);
+                this.DureeOuverture = int.Parse(this.m_TxtTpOuverturePortique.Text); //recupere la duree d'ouverture du portique
             }
             catch (Exception x_exception)
             {
@@ -294,16 +295,16 @@ namespace BeepBop
 
         private void m_TxtTpMinPassage_TextChanged(object sender, EventArgs e)
         {
-            if (m_TxtTpMinPassage.Text == "")
+            if (m_TxtTpMinPassage.Text == "") //si rien ecrit
             {
                 return;
             }
             try
             {
-                this.TempMinPassage = int.Parse(this.m_TxtTpMinPassage.Text);
-                BaseDeDonnees = new CBaseDeDonnees(this.TempMinPassage);
+                this.TempMinPassage = int.Parse(this.m_TxtTpMinPassage.Text); //recupere le temps minimum entre 2 passage d'un forfait
+                BaseDeDonnees = new CBaseDeDonnees(this.TempMinPassage); //cree la base de données avec le temps minimum entre 2 passage d'un forfait
 
-                AfficherNumCarte();
+                AfficherNumCarte(); //affiche les numéros de forfait dans la liste combo box
             }
             catch (Exception x_exception)
             {
@@ -313,7 +314,7 @@ namespace BeepBop
 
         }
 
-        public void AfficherNumCarte()
+        public void AfficherNumCarte() //affiche les numéros de forfait dans la liste combo box
         {
             this.m_TxtBoxListesCartes.Items.Clear();
             for (int i = 0; i < BaseDeDonnees.NbrForfaitUtilisee; i++)
@@ -329,47 +330,47 @@ namespace BeepBop
             }
         }
 
-        private void m_BpSimulateurRfid_Click(object sender, EventArgs e)
+        private void m_BpSimulateurRfid_Click(object sender, EventArgs e) //Lance le simulateur pour le portique selectionné
         {
-            if (this.m_TxtTpOuverturePortique.Text == "")
+            if (this.m_TxtTpOuverturePortique.Text == "") //si rien ecrit en duree ouverture portique
             {
                 MessageBox.Show("Veuillez renseigner une duree d'ouverture du portique avant simulation");
                 return;
             }
-            else if (this.m_TxtTpMinPassage.Text == "")
+            else if (this.m_TxtTpMinPassage.Text == "") //si rien ecrit en duree ouverture portique
             {
                 MessageBox.Show("Veuillez renseigner un temp de passage minimum entre 2 forfait");
                 return;
             }
-            else if(this.m_BoxNumPortique.SelectedItem == null)
+            else if(this.m_BoxNumPortique.SelectedItem == null) //si aucun portique selectionnée
             {
                 MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
-            SimulateurRfid = new CSimulateurRfid[NbrPortique];
-            SimulateurRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1] = new CSimulateurRfid(int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())); // Instanciation de la fenêtre
-            SimulateurRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].BadgeScannee += SimulateurRfid_BadgeScannee;
+            SimulateurRfid = new CSimulateurRfid[NbrPortique]; // Objet simulateur pour chaque portique
+            SimulateurRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1] = new CSimulateurRfid(int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())); // Instanciation de la fenêtre du simulateur pour le portique selectionné
+            SimulateurRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].BadgeScannee += SimulateurRfid_BadgeScannee; // Ajout de l'événement BadgeScannee pour le portique selectionné
         }
 
-        private void SimulateurRfid_BadgeScannee(object sender, EventArgs e)
+        private void SimulateurRfid_BadgeScannee(object sender, EventArgs e) //evenement qui permet de simuler le passage d'un forfait dans le portique selectionné
         {
             try
             {
                 CSimulateurRfid spEmetteur = (CSimulateurRfid)sender;
                 int NumCarte = spEmetteur.NumeroCarte;
-                int index = Array.IndexOf(SimulateurRfid, spEmetteur);
+                int index = Array.IndexOf(SimulateurRfid, spEmetteur); //recup l'index du portique selectionné
                 //try { }
-                bool Autorisée = BaseDeDonnees.EstAutorise(NumCarte, index + 1);
+                bool Autorisée = BaseDeDonnees.EstAutorise(NumCarte, index + 1); //verifie si la carte est autorisee
                 if (Autorisée)
                 {
-                    Automate[index].Evolue(TEvent.AUTORISEE, NumCarte);
+                    Automate[index].Evolue(TEvent.AUTORISEE, NumCarte); //graph etat autorisee
                 }
                 else
                 {
-                    Automate[index].Evolue(TEvent.NON_AUTORISEE, NumCarte);
+                    Automate[index].Evolue(TEvent.NON_AUTORISEE, NumCarte); //graph etat non autorisee
                 }
             }
-            catch (System.IndexOutOfRangeException)
+            catch (System.IndexOutOfRangeException) //si la valeur du nombre de portique a changé -> hor limite tableau
             {
                 MessageBox.Show("Le portique n'existe plus !");
                 return;
@@ -383,21 +384,21 @@ namespace BeepBop
 
         private void m_BpAjouterNumCarte_Click(object sender, EventArgs e)
         {
-            if(this.m_BpAjouterNumCarte.Text == "")
+            if(this.m_BpAjouterNumCarte.Text == "") //si rien ecrit en duree ouverture portique
             {
                 MessageBox.Show("Veuillez mettre un numero de forfait");
                 return;
             }
-            else if(BaseDeDonnees == null)
+            else if(BaseDeDonnees == null) //si la base de données n'est pas initialisée
             {
                 MessageBox.Show("Veuillez ajouter le temps de passage entre 2 forfait");
                 return;
             }
             try
             {
-                BaseDeDonnees.AjouterForfait(int.Parse(this.m_TxtAjouterCarte.Text.ToString()));
+                BaseDeDonnees.AjouterForfait(int.Parse(this.m_TxtAjouterCarte.Text.ToString())); //ajoute le forfait dans la base de données
                 m_TxtAjouterCarte.Text = "";
-                AfficherNumCarte();
+                AfficherNumCarte(); //re-affiche les numéros de forfait dans la liste combo box
             }
             catch (Exception x_exception)
             {
@@ -408,20 +409,20 @@ namespace BeepBop
 
         private void m_TxtBoxOutils_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(BaseDeDonnees == null)
+            if(BaseDeDonnees == null) //si la base de données n'est pas initialisée
             {
                 MessageBox.Show("Veuillez ajouter le temps de passage entre 2 forfait");
                 return;
             }
-            else if(this.m_TxtBoxListesCartes.SelectedItem == null)
+            else if(this.m_TxtBoxListesCartes.SelectedItem == null) //si aucun portique selectionnée
             {
                 MessageBox.Show("Veuillez selectionner un forfait");
                 return;
             }
-            int index = BaseDeDonnees.IndexForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()));
+            int index = BaseDeDonnees.IndexForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString())); //recup l'index du forfait selectionné dans la base de données
             if (this.m_TxtBoxOutils.Text == "Duree Validitee")
             {
-                this.m_TxtBoxListOutils.Items.Clear();
+                this.m_TxtBoxListOutils.Items.Clear();//ajoute les durees de validitee dans le combo box
                 this.m_TxtBoxListOutils.Items.Add("1j");
                 this.m_TxtBoxListOutils.Items.Add("5j");
                 this.m_TxtBoxListOutils.Items.Add("7j");
@@ -429,48 +430,47 @@ namespace BeepBop
 
                 this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_DureeValidite.ToString();
             }
-            else if(this.m_TxtBoxOutils.Text == "Autorisée")
+            else if(this.m_TxtBoxOutils.Text == "Autorisée") //AUTORISATION FORFAIT
             {
-                this.m_TxtBoxListOutils.Items.Clear();
+                this.m_TxtBoxListOutils.Items.Clear(); //ajoute les valeurs autorisée dans le combo box
                 this.m_TxtBoxListOutils.Items.Add("True");
                 this.m_TxtBoxListOutils.Items.Add("False");
 
-                this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_estAutorise.ToString();
+                this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_estAutorise.ToString(); //affiche l'autorisation du forfait selectionné
             }
-            else if(this.m_TxtBoxOutils.Text == "Supprimer")
+            else if(this.m_TxtBoxOutils.Text == "Supprimer") //SUPPRIMER FORFAIT
             {
-                this.m_TxtBoxListOutils.Items.Clear();
+                this.m_TxtBoxListOutils.Items.Clear(); //ajoute les valeurs autorisée dans le combo box
                 this.m_TxtBoxListOutils.Items.Add("True");
                 this.m_TxtBoxListOutils.Items.Add("False");
-
                 this.m_TxtBoxListOutils.Text = "False";
             }
-            else if (this.m_TxtBoxOutils.Text == "Secteur")
+            else if (this.m_TxtBoxOutils.Text == "Secteur") //SECTEUR FORFAIT
             {
                 this.m_TxtBoxListOutils.Items.Clear();
-                this.m_TxtBoxListOutils.Items.Add("Chatel");
+                this.m_TxtBoxListOutils.Items.Add("Chatel"); //ajoute les secteurs dans le combo box
                 this.m_TxtBoxListOutils.Items.Add("Avoriaz");
                 this.m_TxtBoxListOutils.Items.Add("Portes du Soleil");
 
-                this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_secteur.ToString();
+                this.m_TxtBoxListOutils.Text = BaseDeDonnees.m_forfaits[index].m_secteur.ToString(); //affiche le secteur du forfait selectionné
             }
         }
 
-        private void m_BpModifierCarte_Click(object sender, EventArgs e)
+        private void m_BpModifierCarte_Click(object sender, EventArgs e) //Envoie les modifications du forfait selectionné dans la base de données
         {
-            if(this.m_TxtBoxListOutils.Text == "" || this.m_TxtBoxListesCartes.SelectedItem == null)
+            if(this.m_TxtBoxListOutils.Text == "" || this.m_TxtBoxListesCartes.SelectedItem == null) //si champ nulle ou rien selectionnée
             {
                 MessageBox.Show("Veuillez mettre un numero de forfait ou selectionner un forfait");
                 return;
             }
-            else if (this.m_TxtBoxOutils.SelectedItem == "Duree Validitee")
+            else if (this.m_TxtBoxOutils.SelectedItem == "Duree Validitee") //DUREE VALIDITEE FORFAIT
             {
-                BaseDeDonnees.ChangerValiditee(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), this.m_TxtBoxListOutils.SelectedItem.ToString());
+                BaseDeDonnees.ChangerValiditee(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), this.m_TxtBoxListOutils.SelectedItem.ToString()); //change la validité du forfait
             }
-            else if(this.m_TxtBoxOutils.SelectedItem == "Autorisée")
+            else if(this.m_TxtBoxOutils.SelectedItem == "Autorisée") //AUTORISATION FORFAIT
             {
                 bool Autorisation;
-                if(this.m_TxtBoxListOutils.SelectedItem == "True")
+                if(this.m_TxtBoxListOutils.SelectedItem == "True") 
                 {
                     Autorisation = true;
                 }
@@ -478,12 +478,12 @@ namespace BeepBop
                 {
                     Autorisation = false;
                 }
-                if(BaseDeDonnees == null)
+                if(BaseDeDonnees == null) //si la base de données n'est pas initialisée
                 {
                     MessageBox.Show("Veuillez ajouter le temps de passage entre 2 forfait");
                     return;
                 }
-                BaseDeDonnees.ChangerAutorisation(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), Autorisation);
+                BaseDeDonnees.ChangerAutorisation(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), Autorisation); //change autorisation dans la base de données
             }
             else if (this.m_TxtBoxOutils.SelectedItem == "Supprimer")
             {
@@ -496,29 +496,29 @@ namespace BeepBop
                 {
                     Supprimer = false;
                 }
-                BaseDeDonnees.SupprimerForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()));
+                BaseDeDonnees.SupprimerForfait(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString())); //supprime le forfait dans la base de données
                 this.m_TxtBoxListesCartes.Text = "";
-                AfficherNumCarte();
+                AfficherNumCarte(); //re-affiche les numéros de forfait dans la liste combo box
             }
             else if (this.m_TxtBoxOutils.SelectedItem == "Secteur")
             {
-                BaseDeDonnees.ChangerSecteur(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), this.m_TxtBoxListOutils.SelectedItem.ToString());
+                BaseDeDonnees.ChangerSecteur(int.Parse(this.m_TxtBoxListesCartes.SelectedItem.ToString()), this.m_TxtBoxListOutils.SelectedItem.ToString()); //change le secteur du forfait dans la base de données
             }
         }
 
-        private void m_TxtBoxSecteurPortique_SelectedIndexChanged(object sender, EventArgs e)
+        private void m_TxtBoxSecteurPortique_SelectedIndexChanged(object sender, EventArgs e) //permet de changer le secteur du portique selectionné
         {
-            this.m_TxtBoxSecteur.Text = BaseDeDonnees.SecteurPortique[int.Parse(this.m_TxtBoxSecteurPortique.SelectedItem.ToString())-1].ToString();
+            this.m_TxtBoxSecteur.Text = BaseDeDonnees.SecteurPortique[int.Parse(this.m_TxtBoxSecteurPortique.SelectedItem.ToString())-1].ToString(); //affiche le secteur du portique selectionné
         }
 
-        private void m_BpSecteurModifier_Click(object sender, EventArgs e)
+        private void m_BpSecteurModifier_Click(object sender, EventArgs e) //permet de changer le secteur du portique selectionné
         {
-            if(this.m_TxtBoxSecteurPortique.SelectedItem == null)
+            if(this.m_TxtBoxSecteurPortique.SelectedItem == null) //si aucun portique selectionnée
             {
                 MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
-            else if (this.m_TxtBoxSecteur.SelectedItem == null)
+            else if (this.m_TxtBoxSecteur.SelectedItem == null) //si aucun secteur selectionnée
             {
                 MessageBox.Show("Veuillez choisir un secteur");
                 return;
@@ -526,7 +526,7 @@ namespace BeepBop
             BaseDeDonnees.ModifierSecteur(int.Parse(this.m_TxtBoxSecteurPortique.SelectedItem.ToString()), this.m_TxtBoxSecteur.SelectedItem.ToString());
         }
 
-        private void m_TxtBoxSecteur_SelectedIndexChanged(object sender, EventArgs e)
+        private void m_TxtBoxSecteur_SelectedIndexChanged(object sender, EventArgs e) //permet de changer le secteur du portique selectionné
         {
             if (this.m_TxtBoxSecteurPortique.SelectedItem == null)
             {
