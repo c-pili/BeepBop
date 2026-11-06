@@ -30,7 +30,7 @@
             this.m_TxtSerialBaud = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.m_LblCarteNum = new System.Windows.Forms.Label();
             this.m_TimerSeconde = new System.Windows.Forms.Timer(this.components);
             this.m_BpAcquittement = new System.Windows.Forms.Button();
             this.m_TxtNbrPortique = new System.Windows.Forms.TextBox();
@@ -73,7 +73,7 @@
             this.m_BpConnecterSerialPort.Location = new System.Drawing.Point(548, 274);
             this.m_BpConnecterSerialPort.Name = "m_BpConnecterSerialPort";
             this.m_BpConnecterSerialPort.Size = new System.Drawing.Size(108, 40);
-            this.m_BpConnecterSerialPort.TabIndex = 1;
+            this.m_BpConnecterSerialPort.TabIndex = 13;
             this.m_BpConnecterSerialPort.Text = "Se Connecter";
             this.m_BpConnecterSerialPort.UseVisualStyleBackColor = true;
             this.m_BpConnecterSerialPort.Click += new System.EventHandler(this.m_BpConnecterSerialPort_Click);
@@ -84,7 +84,7 @@
             this.m_TxtSerialPort.Location = new System.Drawing.Point(430, 240);
             this.m_TxtSerialPort.Name = "m_TxtSerialPort";
             this.m_TxtSerialPort.Size = new System.Drawing.Size(100, 22);
-            this.m_TxtSerialPort.TabIndex = 2;
+            this.m_TxtSerialPort.TabIndex = 11;
             // 
             // m_TxtSerialBaud
             // 
@@ -92,7 +92,7 @@
             this.m_TxtSerialBaud.Location = new System.Drawing.Point(430, 274);
             this.m_TxtSerialBaud.Name = "m_TxtSerialBaud";
             this.m_TxtSerialBaud.Size = new System.Drawing.Size(100, 22);
-            this.m_TxtSerialBaud.TabIndex = 3;
+            this.m_TxtSerialBaud.TabIndex = 12;
             // 
             // label1
             // 
@@ -114,15 +114,15 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Baud";
             // 
-            // label3
+            // m_LblCarteNum
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(696, 298);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 16);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "ID Carte";
+            this.m_LblCarteNum.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_LblCarteNum.AutoSize = true;
+            this.m_LblCarteNum.Location = new System.Drawing.Point(672, 288);
+            this.m_LblCarteNum.Name = "m_LblCarteNum";
+            this.m_LblCarteNum.Size = new System.Drawing.Size(62, 16);
+            this.m_LblCarteNum.TabIndex = 6;
+            this.m_LblCarteNum.Text = "Carte N° :";
             // 
             // m_TimerSeconde
             // 
@@ -135,7 +135,7 @@
             this.m_BpAcquittement.Location = new System.Drawing.Point(548, 331);
             this.m_BpAcquittement.Name = "m_BpAcquittement";
             this.m_BpAcquittement.Size = new System.Drawing.Size(108, 40);
-            this.m_BpAcquittement.TabIndex = 7;
+            this.m_BpAcquittement.TabIndex = 15;
             this.m_BpAcquittement.Text = "Acquitement";
             this.m_BpAcquittement.UseVisualStyleBackColor = true;
             this.m_BpAcquittement.Click += new System.EventHandler(this.m_BpAcquittement_Click);
@@ -146,7 +146,7 @@
             this.m_TxtNbrPortique.Location = new System.Drawing.Point(263, 111);
             this.m_TxtNbrPortique.Name = "m_TxtNbrPortique";
             this.m_TxtNbrPortique.Size = new System.Drawing.Size(108, 22);
-            this.m_TxtNbrPortique.TabIndex = 8;
+            this.m_TxtNbrPortique.TabIndex = 3;
             this.m_TxtNbrPortique.TextChanged += new System.EventHandler(this.m_TxtNbrPortique_TextChanged);
             // 
             // label4
@@ -167,7 +167,7 @@
             this.m_BoxNumPortique.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.m_BoxNumPortique.Name = "m_BoxNumPortique";
             this.m_BoxNumPortique.Size = new System.Drawing.Size(108, 24);
-            this.m_BoxNumPortique.TabIndex = 12;
+            this.m_BoxNumPortique.TabIndex = 10;
             this.m_BoxNumPortique.SelectedIndexChanged += new System.EventHandler(this.m_BoxNumPortique_SelectedIndexChanged);
             // 
             // label6
@@ -186,7 +186,7 @@
             this.m_TxtTpOuverturePortique.Location = new System.Drawing.Point(263, 56);
             this.m_TxtTpOuverturePortique.Name = "m_TxtTpOuverturePortique";
             this.m_TxtTpOuverturePortique.Size = new System.Drawing.Size(108, 22);
-            this.m_TxtTpOuverturePortique.TabIndex = 19;
+            this.m_TxtTpOuverturePortique.TabIndex = 1;
             this.m_TxtTpOuverturePortique.TextChanged += new System.EventHandler(this.m_TxtTpOuverturePortique_TextChanged);
             // 
             // label5
@@ -205,7 +205,7 @@
             this.m_TxtTpMinPassage.Location = new System.Drawing.Point(263, 84);
             this.m_TxtTpMinPassage.Name = "m_TxtTpMinPassage";
             this.m_TxtTpMinPassage.Size = new System.Drawing.Size(108, 22);
-            this.m_TxtTpMinPassage.TabIndex = 17;
+            this.m_TxtTpMinPassage.TabIndex = 2;
             this.m_TxtTpMinPassage.TextChanged += new System.EventHandler(this.m_TxtTpMinPassage_TextChanged);
             // 
             // label7
@@ -234,7 +234,7 @@
             this.m_BpSimulateurRfid.Location = new System.Drawing.Point(422, 331);
             this.m_BpSimulateurRfid.Name = "m_BpSimulateurRfid";
             this.m_BpSimulateurRfid.Size = new System.Drawing.Size(108, 40);
-            this.m_BpSimulateurRfid.TabIndex = 23;
+            this.m_BpSimulateurRfid.TabIndex = 14;
             this.m_BpSimulateurRfid.Text = "Simulateur RFID";
             this.m_BpSimulateurRfid.UseVisualStyleBackColor = true;
             this.m_BpSimulateurRfid.Click += new System.EventHandler(this.m_BpSimulateurRfid_Click);
@@ -247,7 +247,7 @@
             this.m_TxtBoxListesCartes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.m_TxtBoxListesCartes.Name = "m_TxtBoxListesCartes";
             this.m_TxtBoxListesCartes.Size = new System.Drawing.Size(108, 24);
-            this.m_TxtBoxListesCartes.TabIndex = 24;
+            this.m_TxtBoxListesCartes.TabIndex = 22;
             // 
             // m_TxtAjouterCarte
             // 
@@ -255,7 +255,7 @@
             this.m_TxtAjouterCarte.Location = new System.Drawing.Point(496, 51);
             this.m_TxtAjouterCarte.Name = "m_TxtAjouterCarte";
             this.m_TxtAjouterCarte.Size = new System.Drawing.Size(108, 22);
-            this.m_TxtAjouterCarte.TabIndex = 25;
+            this.m_TxtAjouterCarte.TabIndex = 20;
             // 
             // m_BpAjouterNumCarte
             // 
@@ -263,7 +263,7 @@
             this.m_BpAjouterNumCarte.Location = new System.Drawing.Point(619, 42);
             this.m_BpAjouterNumCarte.Name = "m_BpAjouterNumCarte";
             this.m_BpAjouterNumCarte.Size = new System.Drawing.Size(108, 40);
-            this.m_BpAjouterNumCarte.TabIndex = 26;
+            this.m_BpAjouterNumCarte.TabIndex = 21;
             this.m_BpAjouterNumCarte.Text = "Ajouter Carte";
             this.m_BpAjouterNumCarte.UseVisualStyleBackColor = true;
             this.m_BpAjouterNumCarte.Click += new System.EventHandler(this.m_BpAjouterNumCarte_Click);
@@ -276,7 +276,7 @@
             this.m_TxtBoxOutils.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.m_TxtBoxOutils.Name = "m_TxtBoxOutils";
             this.m_TxtBoxOutils.Size = new System.Drawing.Size(108, 24);
-            this.m_TxtBoxOutils.TabIndex = 27;
+            this.m_TxtBoxOutils.TabIndex = 23;
             this.m_TxtBoxOutils.SelectedIndexChanged += new System.EventHandler(this.m_TxtBoxOutils_SelectedIndexChanged);
             // 
             // m_BpModifierCarte
@@ -285,7 +285,7 @@
             this.m_BpModifierCarte.Location = new System.Drawing.Point(567, 156);
             this.m_BpModifierCarte.Name = "m_BpModifierCarte";
             this.m_BpModifierCarte.Size = new System.Drawing.Size(108, 40);
-            this.m_BpModifierCarte.TabIndex = 28;
+            this.m_BpModifierCarte.TabIndex = 25;
             this.m_BpModifierCarte.Text = "Modifier";
             this.m_BpModifierCarte.UseVisualStyleBackColor = true;
             this.m_BpModifierCarte.Click += new System.EventHandler(this.m_BpModifierCarte_Click);
@@ -298,7 +298,7 @@
             this.m_TxtBoxListOutils.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.m_TxtBoxListOutils.Name = "m_TxtBoxListOutils";
             this.m_TxtBoxListOutils.Size = new System.Drawing.Size(108, 24);
-            this.m_TxtBoxListOutils.TabIndex = 29;
+            this.m_TxtBoxListOutils.TabIndex = 24;
             // 
             // label9
             // 
@@ -352,7 +352,7 @@
             this.m_TxtBoxSecteurPortique.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.m_TxtBoxSecteurPortique.Name = "m_TxtBoxSecteurPortique";
             this.m_TxtBoxSecteurPortique.Size = new System.Drawing.Size(108, 24);
-            this.m_TxtBoxSecteurPortique.TabIndex = 34;
+            this.m_TxtBoxSecteurPortique.TabIndex = 30;
             this.m_TxtBoxSecteurPortique.SelectedIndexChanged += new System.EventHandler(this.m_TxtBoxSecteurPortique_SelectedIndexChanged);
             // 
             // m_TxtBoxSecteur
@@ -363,7 +363,7 @@
             this.m_TxtBoxSecteur.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.m_TxtBoxSecteur.Name = "m_TxtBoxSecteur";
             this.m_TxtBoxSecteur.Size = new System.Drawing.Size(108, 24);
-            this.m_TxtBoxSecteur.TabIndex = 35;
+            this.m_TxtBoxSecteur.TabIndex = 31;
             this.m_TxtBoxSecteur.SelectedIndexChanged += new System.EventHandler(this.m_TxtBoxSecteur_SelectedIndexChanged);
             // 
             // m_BpSecteurModifier
@@ -372,7 +372,7 @@
             this.m_BpSecteurModifier.Location = new System.Drawing.Point(138, 309);
             this.m_BpSecteurModifier.Name = "m_BpSecteurModifier";
             this.m_BpSecteurModifier.Size = new System.Drawing.Size(108, 40);
-            this.m_BpSecteurModifier.TabIndex = 36;
+            this.m_BpSecteurModifier.TabIndex = 32;
             this.m_BpSecteurModifier.Text = "Modifier";
             this.m_BpSecteurModifier.UseVisualStyleBackColor = true;
             this.m_BpSecteurModifier.Click += new System.EventHandler(this.m_BpSecteurModifier_Click);
@@ -404,7 +404,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.m_TxtNbrPortique);
             this.Controls.Add(this.m_BpAcquittement);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.m_LblCarteNum);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.m_TxtSerialBaud);
@@ -426,7 +426,7 @@
         private System.Windows.Forms.TextBox m_TxtSerialBaud;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label m_LblCarteNum;
         public System.Windows.Forms.Timer m_TimerSeconde;
         private System.Windows.Forms.Button m_BpAcquittement;
         private System.Windows.Forms.TextBox m_TxtNbrPortique;

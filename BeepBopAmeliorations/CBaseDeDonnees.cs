@@ -58,17 +58,22 @@ namespace BeepBop
         }
         public bool EstAutorise(int x_numeroCarte, int x_indexPortique)
         {
-            for (int i = 0; i < NbrForfaitUtilisee; i++)
+            for (int i = 0; i < NbrForfaitUtilisee; i++) //regarde tout les forfaits utilisés
             {
-                if (m_forfaits[i].m_NumeroCarte == x_numeroCarte)
+                if (m_forfaits[i].m_NumeroCarte == x_numeroCarte) //si le numéro de carte est dans la base de données
                 {
-                    if(m_forfaits[i].m_DernierPassage.AddSeconds(temp_passage) < DateTime.Now)
+                    if(m_forfaits[i].m_DernierPassage.AddSeconds(temp_passage) < DateTime.Now) //si le dernier passage est plus vieux que le temps minimum entre 2 passages
                     {
-                        if(this.m_forfaits[i].m_DureeValidite > DateTime.Now)
+                        if(this.m_forfaits[i].m_DureeValidite > DateTime.Now) //si le forfait est encore valide (duree d'un forfait)
                         {
-                            if (this.m_forfaits[i].m_secteur == this.SecteurPortique[x_indexPortique-1])
-                            m_forfaits[i].m_DernierPassage = DateTime.Now;
-                            return m_forfaits[i].m_estAutorise;
+                            if (VerifSecteur(m_forfaits[i].m_secteur, this.SecteurPortique[x_indexPortique-1])) //si le secteur du forfait est compatible avec le secteur du portique
+                            {
+                                if(m_forfaits[i].m_estAutorise) //forfait autorisée
+                                {
+                                    m_forfaits[i].m_DernierPassage = DateTime.Now; //met a jour le dernier passage du forfait
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }
@@ -162,17 +167,27 @@ namespace BeepBop
             int NumSecteur = 0;
             switch (x_secteur)
             {
-                case "Chatel":
+                case "CHATEL":
                     NumSecteur = 0;
                     break;
-                case "Avoriaz":
+                case "AVORIAZ":
                     NumSecteur = 1;
-                    break;
-                case "Portes du Soleil":
-                    NumSecteur = 2;
                     break;
             }
             this.SecteurPortique[x_indexPortique - 1] = (TSecteur)NumSecteur;
+        }
+
+        private bool VerifSecteur(TSecteur x_secteurForfait, TSecteur x_secteurPortique)
+        {
+            if((x_secteurForfait == x_secteurPortique) || (x_secteurForfait == TSecteur.PORTESDUSOLEIL && x_secteurPortique == TSecteur.CHATEL)
+                || (x_secteurForfait == TSecteur.PORTESDUSOLEIL && x_secteurPortique == TSecteur.AVORIAZ))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
