@@ -15,14 +15,14 @@ namespace BeepBop
         CAutomate Automate;
         CBaseDeDonnees BaseDeDonnees;
         CPortique Portique;
+        private DateTime DateDernierPassage;
+        private readonly int TempDetection = 400; //en millisecondes
         public CRfid()
         {
             InitializeComponent();
-            Control.CheckForIllegalCrossThreadCalls = false;
             BaseDeDonnees = new CBaseDeDonnees();
             Automate = new CAutomate(this);
             Portique = new CPortique();
-            //this.m_serialPortRfid.Open();
         }
 
         private int LectureNumeroCarte()
@@ -38,19 +38,34 @@ namespace BeepBop
 
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            int NumCarte = LectureNumeroCarte();
-            m_lblNumeroCarte.Text = NumCarte.ToString();
+            if (this.DateDernierPassage.AddMilliseconds(this.TempDetection) > DateTime.Now) //si le dernier passage est trop proche (spam console portique)
+            {
+                return;
+            }
+            this.DateDernierPassage = DateTime.Now;
+            this.Invoke(new Action(() => //permet de faire appel à l'interface graphique depuis un thread
+            {
+                try
+                {
+                    int NumCarte = LectureNumeroCarte();
+                    m_lblNumeroCarte.Text = NumCarte.ToString();
 
-            if (BaseDeDonnees.EstAutorise(NumCarte))
-            {
-                label3.BackColor = Color.LightGreen;
-                Automate.Evolue(TEvent.AUTORISEE);
-            }
-            else
-            {
-                label3.BackColor = Color.LightCoral;
-                Automate.Evolue(TEvent.NON_AUTORISEE);
-            }
+                    if (BaseDeDonnees.EstAutorise(NumCarte))
+                    {
+                        label3.BackColor = Color.LightGreen;
+                        Automate.Evolue(TEvent.AUTORISEE);
+                    }
+                    else
+                    {
+                        label3.BackColor = Color.LightCoral;
+                        Automate.Evolue(TEvent.NON_AUTORISEE);
+                    }
+                }
+                catch (Exception x_exception)
+                {
+                    MessageBox.Show(x_exception.Message);
+                }
+            }));
         }
 
         private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
@@ -100,17 +115,32 @@ namespace BeepBop
 
         public void FermerPortique()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => FermerPortique())); //permet de faire appel à l'interface graphique depuis un thread
+                return;
+            }
             Portique.Fermer();
             Portique.Show();
         }
 
         public void OuvrirPortique()
         {
-            Portique.Ouvrir();
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => OuvrirPortique())); //permet de faire appel à l'interface graphique depuis un thread
+                return;
+            }
+                Portique.Ouvrir();
             Portique.Show();
         }
         public void ErreurPortique()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => OuvrirPortique())); //permet de faire appel à l'interface graphique depuis un thread
+                return;
+            }
             Portique.Erreur();
             Portique.Show();
         }

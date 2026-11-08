@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    enum TEtat { FERMEE = 0, OUVERT, ERREUR}
+    enum TEtat { INIT = 0, FERMEE, OUVERT, ERREUR}
     enum TEvent {AUTORISEE, NON_AUTORISEE, TIMER2S, APPUIACQ }
     internal class CAutomate
     {
@@ -18,14 +18,22 @@ namespace BeepBop
         non auto = erreur 2s -> durant 2s on peut acquitter avec un bouton
         */
         TEtat m_etat;
-        CRfid BeepBop;
+        CRfid Rfid;
         int index;
-
-        public void Evolue(TEvent x_Event, int x_index)
+        int NumForfait;
+        public CAutomate(CRfid x_formMain, int x_index)
         {
+            this.Rfid = x_formMain;
             this.index = x_index;
+        }
+
+        public void Evolue(TEvent x_Event, int x_numForfait)
+        {
+            this.NumForfait = x_numForfait;
             switch (this.m_etat)
             {
+                case TEtat.INIT:
+                    break;
                 case TEtat.FERMEE:
                     if(x_Event == TEvent.AUTORISEE)
                     {
@@ -41,6 +49,10 @@ namespace BeepBop
                     if (x_Event == TEvent.TIMER2S) 
                     {
                         this.m_etat = TEtat.FERMEE;
+                    }
+                    else if (x_Event == TEvent.NON_AUTORISEE)
+                    {
+                        this.m_etat = TEtat.ERREUR;
                     }
                     break;
 
@@ -59,15 +71,15 @@ namespace BeepBop
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
-                    BeepBop.FermerPortique(index);
+                    Rfid.FermerPortique(index);
                     break;
 
                 case TEtat.OUVERT:
-                    BeepBop.OuvrirPortique(index);
+                    Rfid.OuvrirPortique(index);
                     break;
 
                 case TEtat.ERREUR:
-                    BeepBop.ErreurPortique(index);
+                    Rfid.ErreurPortique(index);
                     break;
             }
         }

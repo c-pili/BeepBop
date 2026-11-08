@@ -30,7 +30,7 @@
             this.m_TxtSerialBaud = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.m_LblCarteNum = new System.Windows.Forms.Label();
             this.m_Timer2s = new System.Windows.Forms.Timer(this.components);
             this.m_BpAcquittement = new System.Windows.Forms.Button();
             this.m_TxtNbrPortique = new System.Windows.Forms.TextBox();
@@ -94,15 +94,15 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Baud";
             // 
-            // label3
+            // m_LblCarteNum
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(570, 167);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 16);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "ID Carte";
+            this.m_LblCarteNum.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.m_LblCarteNum.AutoSize = true;
+            this.m_LblCarteNum.Location = new System.Drawing.Point(570, 167);
+            this.m_LblCarteNum.Name = "m_LblCarteNum";
+            this.m_LblCarteNum.Size = new System.Drawing.Size(55, 16);
+            this.m_LblCarteNum.TabIndex = 6;
+            this.m_LblCarteNum.Text = "ID Carte";
             // 
             // m_Timer2s
             // 
@@ -151,14 +151,14 @@
             this.m_BoxNumPortique.TabIndex = 12;
             this.m_BoxNumPortique.SelectedIndexChanged += new System.EventHandler(this.m_BoxNumPortique_SelectedIndexChanged);
             // 
-            // CBeepBop
+            // CRfid
             // 
             this.ClientSize = new System.Drawing.Size(831, 436);
             this.Controls.Add(this.m_BoxNumPortique);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.m_TxtNbrPortique);
             this.Controls.Add(this.m_BpAcquittement);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.m_LblCarteNum);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.m_TxtSerialBaud);
@@ -166,7 +166,7 @@
             this.Controls.Add(this.m_BpConnecterSerialPort);
             this.Controls.Add(this.m_lblNumeroCarte);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "CBeepBop";
+            this.Name = "CRfid";
             this.Text = "BeepBop Triple";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -180,7 +180,7 @@
         private System.Windows.Forms.TextBox m_TxtSerialBaud;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label m_LblCarteNum;
         public System.Windows.Forms.Timer m_Timer2s;
         private System.Windows.Forms.Button m_BpAcquittement;
         private System.Windows.Forms.TextBox m_TxtNbrPortique;

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,6 +19,8 @@ namespace BeepBop
         CPortique[] Portique;
         SerialPort[] m_serialPortRfid;
         private int NbrPortique;
+        private DateTime DateDernierPassage;
+        private readonly int TempDetection = 600; //en millisecondes
         public struct TPortique
         {
             public bool Connectee;
@@ -35,10 +38,10 @@ namespace BeepBop
             this.m_BoxNumPortique.Text = "Selectionne le numero du portique";
         }
 
-        private int LectureNumeroCarte()
+        private int LectureNumeroCarte(int index)
         {
             // Récupération des 12 octets avec ReadExisting :
-            string l_trame = this.m_serialPortRfid[0].ReadExisting();
+            string l_trame = this.m_serialPortRfid[index].ReadExisting();
             int l_numeroCarte;
             string l_derniersOctets = l_trame.Substring(7, 4);
             l_numeroCarte = Int32.Parse(l_derniersOctets,
@@ -48,17 +51,45 @@ namespace BeepBop
 
         private void m_serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            int NumCarte = LectureNumeroCarte();
-            m_lblNumeroCarte.Text = NumCarte.ToString();
+            SerialPort spEmetteur = (SerialPort)sender;
+            Thread.Sleep(50);
+            int index = Array.IndexOf(this.m_serialPortRfid, spEmetteur);
 
-            if (BaseDeDonnees.EstAutorise(NumCarte))
+            m_Portique[index].trame = LectureNumeroCarte(index);
+
+            if (m_Portique[index].trame == 0) //si erreur de lecture -> arrete la l
             {
-                label3.BackColor = Color.LightGreen;
+                return;
             }
-            else
+            else if(this.DateDernierPassage.AddMilliseconds(this.TempDetection) > DateTime.Now) //si le dernier passage est trop proche (spam console portique)
             {
-                label3.BackColor = Color.LightCoral;
+                return;
             }
+
+            this.Invoke(new Action(() => //permet de faire appel à l'interface graphique depuis un thread
+            {
+                try
+                {
+                    bool Autorisée = BaseDeDonnees.EstAutorise(m_Portique[index].trame); //verifie si le forfait est: secteur, passage, validitee,..
+                    this.m_LblCarteNum.Text = "Carte N° : " + m_Portique[index].trame.ToString(); //Met a jour le label
+
+                    if (Autorisée)
+                    {
+                        Automate[index].Evolue(TEvent.AUTORISEE, m_Portique[index].trame); //Autorisee Graph Etat
+                        this.m_LblCarteNum.BackColor = Color.Green;
+                    }
+                    else
+                    {
+                        Automate[index].Evolue(TEvent.NON_AUTORISEE, m_Portique[index].trame); //Non autorisée Graph Etat
+                        this.m_LblCarteNum.BackColor = Color.Red;
+                    }
+                    this.DateDernierPassage = DateTime.Now; //enregistre la date du dernier passage pour eviter le spam console du portique
+                }
+                catch (Exception x_exception) //si erreur 
+                {
+                    MessageBox.Show(x_exception.Message);
+                }
+            }));
         }
 
         private void m_BpConnecterSerialPort_Click(object sender, EventArgs e)
@@ -68,32 +99,32 @@ namespace BeepBop
                 MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
-            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Port = int.Parse(this.m_TxtSerialPort.Text);
-            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Baud = int.Parse(this.m_TxtSerialBaud.Text);
+            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Port = int.Parse(this.m_TxtSerialPort.Text);
+            this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Baud = int.Parse(this.m_TxtSerialBaud.Text);
 
-            if (!this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee)
+            if (!this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Connectee)
             {
-                if (m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].PortName == "")
+                if (m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].PortName == "")
                 {
                     MessageBox.Show("Veuillez choisir un port série");
                     return;
                 }
-                if (this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].BaudRate == 0)
+                if (this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].BaudRate == 0)
                 {
                     MessageBox.Show("Veuillez choisir une vitesse de transmission en bauds");
                     return;
                 }
                 try
                 {
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].PortName = "COM" + this.m_TxtSerialPort.Text.ToString();
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Open();
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = true;
+                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].PortName = "COM" + this.m_TxtSerialPort.Text.ToString();
+                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].BaudRate = int.Parse(this.m_TxtSerialBaud.Text);
+                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Open();
+                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Connectee = true;
                     this.m_BpConnecterSerialPort.Text = "Se Déconnecter";
                 }
                 catch (Exception x_exception)
                 {
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = false;
+                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Connectee = false;
                     MessageBox.Show(x_exception.Message);
                 }
             }
@@ -101,13 +132,13 @@ namespace BeepBop
             {
                 try
                 {
-                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Close();
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = false;
+                    this.m_serialPortRfid[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Close();
+                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Connectee = false;
                     this.m_BpConnecterSerialPort.Text = "Se Connecter";
                 }
                 catch (Exception x_exception)
                 {
-                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee = true;
+                    this.m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Connectee = true;
                     MessageBox.Show(x_exception.Message);
                 }
             }
@@ -128,29 +159,29 @@ namespace BeepBop
                 MessageBox.Show("Veuillez choisir un numéro de portique");
                 return;
             }
-            Automate[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Evolue(TEvent.APPUIACQ, int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()));
+            Automate[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Evolue(TEvent.APPUIACQ, int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()));
         }
 
         public void FermerPortique(int index)
         {
-            Portique[index].Fermer(index);
+            Portique[index].Fermer();
             Portique[index].Show();
         }
 
         public void OuvrirPortique(int index)
         {
-            Portique[index].Ouvrir(index);
+            Portique[index].Ouvrir();
             Portique[index].Show();
         }
         public void ErreurPortique(int index)
         {
-            Portique[index].Erreur(index);
+            Portique[index].Erreur();
             Portique[index].Show();
         }
 
         private void m_TxtNbrPortique_TextChanged(object sender, EventArgs e)
         {
-            this.NbrPortique = int.Parse(this.m_TxtNbrPortique.Text);
+            this.NbrPortique = int.Parse(this.m_TxtNbrPortique.Text.ToString());
 
             Portique = new CPortique[NbrPortique]; // tableau de portique
             Automate = new CAutomate[NbrPortique];
@@ -162,18 +193,22 @@ namespace BeepBop
             {
                 this.m_BoxNumPortique.Items.Add(i);
 
-                Portique[i - 1] = new CPortique();
-                Automate[i - 1] = new CAutomate();
-                m_serialPortRfid[i - 1] = new SerialPort();
+                Portique[i - 1] = new CPortique(i);
+                Automate[i - 1] = new CAutomate(this, i - 1);
+                m_serialPortRfid[i - 1] = new SerialPort()
+                {
+                    DtrEnable = true,
+                };
                 m_Portique[i - 1] = new TPortique();
+                m_serialPortRfid[i - 1].DataReceived += m_serialPortRfid_DataReceived;
             }
         }
 
         private void m_BoxNumPortique_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.m_TxtSerialPort.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Port).ToString());
-            this.m_TxtSerialBaud.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Baud).ToString());
-            this.m_BpConnecterSerialPort.Text = m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())].Connectee ? "Se Déconnecter" : "Se Connecter";
+            this.m_TxtSerialPort.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Port).ToString());
+            this.m_TxtSerialBaud.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Baud).ToString());
+            this.m_BpConnecterSerialPort.Text = m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Connectee ? "Se Déconnecter" : "Se Connecter";
         }
 
         private void serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)

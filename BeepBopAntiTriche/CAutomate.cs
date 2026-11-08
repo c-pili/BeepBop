@@ -52,6 +52,10 @@ namespace BeepBop
                     {
                         this.m_etat = TEtat.FERMEE;
                     }
+                    else if (x_Event == TEvent.NON_AUTORISEE)
+                    {
+                        this.m_etat = TEtat.ERREUR;
+                    }
                     break;
 
                 case TEtat.ERREUR:
