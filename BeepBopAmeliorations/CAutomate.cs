@@ -7,8 +7,8 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    enum TEtat { FERMEE = 0, OUVERT, ERREUR}
-    enum TEvent {AUTORISEE, NON_AUTORISEE, TIMER2S, APPUIACQ }
+    enum TEtat { FERMEE = 0, OUVERT, ERREUR } //enumération qui contient les différents états possibles pour un portique
+    enum TEvent {AUTORISEE, NON_AUTORISEE, TIMER2S, APPUIACQ } //enumération qui contient les différents événements possibles pour un portique
     internal class CAutomate
     {
         /*
@@ -19,9 +19,9 @@ namespace BeepBop
         */
         TEtat m_etat;
         CRfid Rfid;
-        int index;
-        int NumForfait;
-        private System.Windows.Forms.Timer m_Timer;
+        int index; //index portique
+        int NumForfait; //num du forfait qui passe dans le portique
+        private System.Windows.Forms.Timer m_Timer; //Timer duree ouverture portique
 
         public CAutomate(CRfid x_formMain, int x_DureeOuverture, int x_index)
         {
@@ -29,7 +29,7 @@ namespace BeepBop
             this.Rfid = x_formMain;
 
             this.m_Timer = new System.Windows.Forms.Timer();
-            this.m_Timer.Interval = (x_DureeOuverture * 1000);
+            this.m_Timer.Interval = (x_DureeOuverture * 1000); //converti en millisecondes la duree du timer
             this.m_Timer.Tick += M_Timer_Tick;
         }
 
@@ -41,12 +41,12 @@ namespace BeepBop
                 case TEtat.FERMEE:
                     if(x_Event == TEvent.AUTORISEE)
                     {
-                        this.m_Timer.Start();
+                        this.m_Timer.Start(); //démarre le timer de 2 secondes pour la fermeture
                         this.m_etat = TEtat.OUVERT;
                     }
                     else if(x_Event == TEvent.NON_AUTORISEE)
                     {
-                        this.m_Timer.Start();
+                        this.m_Timer.Start(); //démarre le timer de 2 secondes pour l'acquitement de l'erreur
                         this.m_etat = TEtat.ERREUR;
                     }
                     break;
@@ -69,7 +69,7 @@ namespace BeepBop
                     }
                     break;
             }
-            this.Actions();
+            this.Actions(); //met a jour les actions 
         }
 
         public void Actions()
@@ -91,8 +91,8 @@ namespace BeepBop
         }
         private void M_Timer_Tick(object sender, EventArgs e)
         {
-            this.m_Timer.Stop();
-            this.Evolue(TEvent.TIMER2S, 0);
+            this.m_Timer.Stop(); //stop le timer jusqu'à la prochaine ouverture du portique
+            this.Evolue(TEvent.TIMER2S, 0); //fait evoluer le graph etat
         }
     }
 }

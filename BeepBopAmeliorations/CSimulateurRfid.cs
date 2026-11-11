@@ -12,18 +12,18 @@ namespace BeepBop
 {
     public partial class CSimulateurRfid : Form
     {
-        public event EventHandler BadgeScannee;
-        public int NumeroCarte;
+        public event EventHandler BadgeScannee; //evement pour simuler le badge scanné d'un lecteur
+        public int NumeroCarte; //numero de carte scannée par le simulateur
         public CSimulateurRfid(int index)
         {
             InitializeComponent();
-            this.Show();
-            this.Text = "Simulateur Portique " + (index);
+            this.Show(); //affiche la fenetre du simulateur du portique
+            this.Text = "Simulateur Portique " + (index); //titre de la fenetre avec le num de l'index du portique
 
             this.m_TxtBoxNumCarte.Text = "Veuillez choisir un Numéro";
         }
 
-        private void m_BpAjouterNumCarte_Click(object sender, EventArgs e)
+        private void m_BpAjouterNumCarte_Click(object sender, EventArgs e) //si ajout d'un nouveau numero de carte, ajoute le dans la liste des numeros de cartes
         {
             if(this.m_TxtAjouterNumCarte.Text == "")
             {
@@ -34,16 +34,16 @@ namespace BeepBop
             this.m_TxtAjouterNumCarte.Text = "";
         }
 
-        private void m_BpBadger_Click(object sender, EventArgs e)
+        private void m_BpBadger_Click(object sender, EventArgs e) //envoie l'evenement de badge scanné avec le numero de carte selectionné
         {
             if(m_TxtBoxNumCarte.SelectedItem == null)
             {
                 MessageBox.Show("Veuillez Séléctionner un numéro de carte");
                 return;
             }
-            this.NumeroCarte = Int32.Parse(m_TxtBoxNumCarte.SelectedItem.ToString());
+            this.NumeroCarte = Int32.Parse(m_TxtBoxNumCarte.SelectedItem.ToString());  //conditionnement du numero de badge comme celui d'un badge scanné par un lecteur
 
-            this.BadgeScannee(this, EventArgs.Empty);
+            this.BadgeScannee(this, EventArgs.Empty); //evenement badge scannée
         }
     }
 }
