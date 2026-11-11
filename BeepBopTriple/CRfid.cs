@@ -16,7 +16,7 @@ namespace BeepBop
     {
         CAutomate[] Automate;
         CBaseDeDonnees BaseDeDonnees;
-        CPortique[] Portique;
+        public CPortique[] Portique;
         SerialPort[] m_serialPortRfid;
         private int NbrPortique;
         private DateTime DateDernierPassage;
@@ -144,14 +144,6 @@ namespace BeepBop
             }
         }
 
-        private void m_Timer2s_Tick(object sender, EventArgs e)
-        {
-            for(int i = 0; i < NbrPortique; i++)
-            {
-                Automate[i].Evolue(TEvent.TIMER2S, i);
-            }
-        }
-
         private void m_BpAcquittement_Click(object sender, EventArgs e)
         {
             if(this.m_BoxNumPortique.SelectedItem == null)
@@ -160,23 +152,6 @@ namespace BeepBop
                 return;
             }
             Automate[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()) - 1].Evolue(TEvent.APPUIACQ, int.Parse(this.m_BoxNumPortique.SelectedItem.ToString()));
-        }
-
-        public void FermerPortique(int index)
-        {
-            Portique[index].Fermer();
-            Portique[index].Show();
-        }
-
-        public void OuvrirPortique(int index)
-        {
-            Portique[index].Ouvrir();
-            Portique[index].Show();
-        }
-        public void ErreurPortique(int index)
-        {
-            Portique[index].Erreur();
-            Portique[index].Show();
         }
 
         private void m_TxtNbrPortique_TextChanged(object sender, EventArgs e)
@@ -209,11 +184,6 @@ namespace BeepBop
             this.m_TxtSerialPort.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Port).ToString());
             this.m_TxtSerialBaud.Text = ((m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Baud).ToString());
             this.m_BpConnecterSerialPort.Text = m_Portique[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Connectee ? "Se Déconnecter" : "Se Connecter";
-        }
-
-        private void serialPortRfid_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
-        {
-           
         }
     }
 }

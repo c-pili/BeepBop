@@ -104,12 +104,6 @@
             this.m_LblCarteNum.TabIndex = 6;
             this.m_LblCarteNum.Text = "ID Carte";
             // 
-            // m_Timer2s
-            // 
-            this.m_Timer2s.Enabled = true;
-            this.m_Timer2s.Interval = 2000;
-            this.m_Timer2s.Tick += new System.EventHandler(this.m_Timer2s_Tick);
-            // 
             // m_BpAcquittement
             // 
             this.m_BpAcquittement.Anchor = System.Windows.Forms.AnchorStyles.None;

@@ -67,15 +67,15 @@ namespace BeepBop
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
-                    Rfid.FermerPortique();
+                    Rfid.Portique.Fermer();
                     break;
 
                 case TEtat.OUVERT:
-                    Rfid.OuvrirPortique();
+                    Rfid.Portique.Ouvrir();
                     break;
 
                 case TEtat.ERREUR:
-                    Rfid.ErreurPortique();
+                    Rfid.Portique.Erreur();
                     break;
             }
         }

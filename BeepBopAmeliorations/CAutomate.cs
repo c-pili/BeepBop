@@ -21,17 +21,16 @@ namespace BeepBop
         CRfid Rfid;
         int index;
         int NumForfait;
-        private System.Timers.Timer m_Timer;
+        private System.Windows.Forms.Timer m_Timer;
 
         public CAutomate(CRfid x_formMain, int x_DureeOuverture, int x_index)
         {
             this.index = x_index - 1;
             this.Rfid = x_formMain;
 
-            this.m_Timer = new System.Timers.Timer();
+            this.m_Timer = new System.Windows.Forms.Timer();
             this.m_Timer.Interval = (x_DureeOuverture * 1000);
-            this.m_Timer.AutoReset = true;
-            this.m_Timer.Elapsed += M_Timer_Elapsed;
+            this.m_Timer.Tick += M_Timer_Tick;
         }
 
         public void Evolue(TEvent x_Event, int x_numforfait)
@@ -78,22 +77,22 @@ namespace BeepBop
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
-                    Rfid.FermerPortique(index);
+                    Rfid.Portique[index].Fermer();
                     break;
 
                 case TEtat.OUVERT:
-                    Rfid.OuvrirPortique(index, NumForfait);
+                    Rfid.Portique[index].Ouvrir(NumForfait);
                     break;
 
                 case TEtat.ERREUR:
-                    Rfid.ErreurPortique(index, NumForfait);
+                    Rfid.Portique[index].Erreur(NumForfait);
                     break;
             }
         }
-        private void M_Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void M_Timer_Tick(object sender, EventArgs e)
         {
-            this.Evolue(TEvent.TIMER2S, 0);
             this.m_Timer.Stop();
+            this.Evolue(TEvent.TIMER2S, 0);
         }
     }
 }

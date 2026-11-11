@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    internal class CPortique:Form
+    public class CPortique:Form
     {
         public CPortique()
         {
@@ -18,18 +18,21 @@ namespace BeepBop
         public void Ouvrir()
         {
             //passer le fond en vert
+            this.Show();
             this.BackColor = System.Drawing.Color.Green;
         }
 
         public void Fermer()
         {
             //passer le fond en orange
+            this.Show();
             this.BackColor = System.Drawing.Color.Orange;
         }
 
         public void Erreur()
         {
             //passer le fond en rouge
+            this.Show();
             this.BackColor = System.Drawing.Color.Red;
         }
     }

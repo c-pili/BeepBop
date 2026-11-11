@@ -15,7 +15,7 @@ namespace BeepBop
         //private const string CportName = "COM3"; // Port du Lecteur RFID
         CAutomate Automate;
         CBaseDeDonnees BaseDeDonnees;
-        CPortique Portique;
+        public CPortique Portique;
         public CRfid()
         {
             InitializeComponent();
@@ -102,20 +102,6 @@ namespace BeepBop
         private void m_BpAcquittement_Click(object sender, EventArgs e)
         {
             Automate.Evolue(TEvent.APPUIACQ);
-        }
-
-        public void FermerPortique()
-        {
-            Portique.Fermer();
-        }
-
-        public void OuvrirPortique()
-        {
-            Portique.Ouvrir();
-        }
-        public void ErreurPortique()
-        {
-            Portique.Erreur();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BeepBop
 {
-    enum TEtat { INIT = 0, FERMEE, OUVERT, ERREUR}
+    enum TEtat {FERMEE = 0, OUVERT, ERREUR}
     enum TEvent {AUTORISEE, NON_AUTORISEE, TIMER2S, APPUIACQ }
     internal class CAutomate
     {
@@ -21,10 +21,15 @@ namespace BeepBop
         CRfid Rfid;
         int index;
         int NumForfait;
+        private System.Windows.Forms.Timer m_Timer;
         public CAutomate(CRfid x_formMain, int x_index)
         {
             this.Rfid = x_formMain;
             this.index = x_index;
+
+            this.m_Timer = new System.Windows.Forms.Timer();
+            this.m_Timer.Interval = (2000);
+            this.m_Timer.Tick += M_Timer_Tick;
         }
 
         public void Evolue(TEvent x_Event, int x_numForfait)
@@ -32,15 +37,15 @@ namespace BeepBop
             this.NumForfait = x_numForfait;
             switch (this.m_etat)
             {
-                case TEtat.INIT:
-                    break;
                 case TEtat.FERMEE:
                     if(x_Event == TEvent.AUTORISEE)
                     {
+                        this.m_Timer.Start();
                         this.m_etat = TEtat.OUVERT;
                     }
                     else if(x_Event == TEvent.NON_AUTORISEE)
                     {
+                        this.m_Timer.Start();
                         this.m_etat = TEtat.ERREUR;
                     }
                     break;
@@ -71,17 +76,22 @@ namespace BeepBop
             switch (this.m_etat)
             {
                 case TEtat.FERMEE:
-                    Rfid.FermerPortique(index);
+                    Rfid.Portique[index].Fermer();
                     break;
 
                 case TEtat.OUVERT:
-                    Rfid.OuvrirPortique(index);
+                    Rfid.Portique[index].Ouvrir();
                     break;
 
                 case TEtat.ERREUR:
-                    Rfid.ErreurPortique(index);
+                    Rfid.Portique[index].Erreur();
                     break;
             }
+        }
+        private void M_Timer_Tick(object sender, EventArgs e)
+        {
+            this.m_Timer.Stop();
+            this.Evolue(TEvent.TIMER2S, 0);
         }
     }
 }

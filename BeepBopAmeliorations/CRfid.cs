@@ -17,14 +17,14 @@ namespace BeepBop
     {
         CAutomate[] Automate;
         CBaseDeDonnees BaseDeDonnees;
-        CPortique[] Portique;
+        public CPortique[] Portique;
         SerialPort[] m_serialPortRfid;
         CSimulateurRfid[] SimulateurRfid;
         private int NbrPortique; // Nombre de portiques
         private int DureeOuverture; // Temps d'ouverture du portique en secondes
         private float TempMinPassage; // Temps minimum entre 2 passage d'un forfait en secondes
         private DateTime DateDernierPassage; //Time du dernier passage d'un forfait pour eviter le spam console du portique
-        private readonly int TempDetection = 200; //Millisecondes
+        private readonly int TempDetection = 500; //Millisecondes
         public struct TPortique // Structure pour les portiques
         {
             public bool Connectee;
@@ -37,12 +37,12 @@ namespace BeepBop
         {
             /*
              * Amelioration
-             * -> Ajout parametre tp passage min + Ouverture portique
-             * -> Ajout date de validité forfait(en jour)
+             * -> Ajout parametre temps entre passage min + temps d'ouverture portique
+             * -> Ajout date de validité forfait (en jour qui se deduit a la modification (pas au premier passage))
              * -> Ajout TxtBox(console) pour chaque portique
              * -> Ajout Simulateur pour chaque portique
-             * -> Ajout Modification Forfait
-             * -> Ajout Secteur Forfait
+             * -> Ajout Modification Forfait (tableau fix, faut-il realloc ?)
+             * -> Ajout Secteur Forfait + Secteur Portique
              * -> Changement dynamique des portiques (faut-il libérer la mememoire ? faut-il realloc en c# ?)
             */
 
@@ -184,38 +184,6 @@ namespace BeepBop
             Automate[int.Parse(this.m_BoxNumPortique.SelectedItem.ToString())-1].Evolue(TEvent.APPUIACQ, 0); //envoie l'evenement d'acquittement au portique selectionné
         }
 
-        public void FermerPortique(int index) //permet de fermer le portique selectionné
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() => FermerPortique(index)));
-                return;
-            }
-            Portique[index].Fermer(index);
-            Portique[index].Show(); //ouvre la fenetre du portique selectionné
-        }
-
-        public void OuvrirPortique(int index, int NumForfait) //permet d'ouvrir le portique selectionné avec le numero de forfait
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() => OuvrirPortique(index, NumForfait))); //permet de faire appel à l'interface graphique depuis un thread
-                return;
-            }
-            Portique[index].Ouvrir(index, NumForfait);
-            Portique[index].Show();
-        }
-        public void ErreurPortique(int index, int NumForfait) //permet de mettre le portique selectionné en erreur avec le numero de forfait
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() => ErreurPortique(index, NumForfait)));
-                return;
-            }
-            Portique[index].Erreur(index, NumForfait);
-            Portique[index].Show();
-        }
-
         private void m_TxtNbrPortique_TextChanged(object sender, EventArgs e) //permet de changer le nombre de portique
         {
             if(this.m_TxtNbrPortique.Text == null) //si rien ecrit en nbr portique
@@ -250,7 +218,7 @@ namespace BeepBop
                     this.m_BoxNumPortique.Items.Add(i); //ajoute le numero du portique dans le combo box
                     this.m_TxtBoxSecteurPortique.Items.Add(i); //ajoute le numero du portique dans le combo box
 
-                    Portique[i - 1] = new CPortique(); // Instanciation de la fenêtre
+                    Portique[i - 1] = new CPortique(i); // Instanciation de la fenêtre
                     Automate[i - 1] = new CAutomate(this, this.DureeOuverture, i); // Instanciation de l'automate pour chaque portique
 
                     m_serialPortRfid[i - 1] = new SerialPort //instancie serial port pour chaque portique
